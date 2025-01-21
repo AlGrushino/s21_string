@@ -1,30 +1,5 @@
 #include "s21_string.h"
 
-
-#define specifications "cdieEfgGosuxXpn%"
-#define hexidecimal "0123456789abcdef"
-#define hexidecimal_big "0123456789ABCDEF"
-#define flags "-+ #0"
-
-typedef struct {
-  char spec;
-  int flag_minus;
-  int flag_plus;
-  int flag_space;
-  int flag_hash;
-  int flag_zero;
-  int flag_h;
-  int flag_l;
-  int flag_L;
-  int lenght;
-  int accuracy;
-  int reading_acc;
-  int reading_lenght;
-} specification_read;
-
-int read_specificator(char *str, const char *format, int len, char specificator,
-                      va_list args, int current_len);
-
 int is_negative(long double a) { return 1.0L / a < 0.0L; }
 
 double my_abs(long double a) { return is_negative(a) ? -a : a; }
@@ -602,7 +577,7 @@ int s21_sprintf(char *str, const char *format, ...) {
 }
 
 void read_d(char *str, char *buffer) {
-  while(*buffer > '0' && *buffer < '9') {
+  while (*buffer > '0' && *buffer < '9') {
     *(str++) = *(buffer++);
   }
 }
@@ -624,31 +599,28 @@ int sasha_func(char *arr) {
   return num;
 }
 
-int s21_sscanf(char * buffer, const char * format, ...) {
+int s21_sscanf(char *buffer, const char *format, ...) {
   va_list args;
   va_start(args, format);
   char *find = s21_strchr(format, '%');
-  while (find != S21_NULL){
-    char * start = find + 1;
+  while (find != S21_NULL) {
+    char *start = find + 1;
     find = s21_strpbrk(format, specifications);
-    switch (*find)
-    {
-    case 'd':
-      char str[1024] = "";
-      int *p = va_arg(args, int *);
-      read_d(str, buffer);
-      printf("%s", str);
-      *p = sasha_func(str);
-      break;
-    
-    default:
-      break;
-  }
-    
+    switch (*find) {
+      case 'd':
+        char str[1024] = "";
+        int *p = va_arg(args, int *);
+        read_d(str, buffer);
+        printf("%s", str);
+        *p = sasha_func(str);
+        break;
 
-     find = s21_strchr(format, '%');
-     format = find + 1;
+      default:
+        break;
+    }
+
+    find = s21_strchr(format, '%');
+    format = find + 1;
   }
   return 0;
 }
-
