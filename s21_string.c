@@ -582,45 +582,45 @@ void read_d(char *str, char *buffer) {
   }
 }
 
-int sasha_func(char *arr) {
-  int num = 0;
-  int flag_minus = 0;
-  int mult = 1;
-  int len = s21_strlen(arr);
-  len = my_abs((long double)len);
+// int sasha_func(char *arr) {
+//   int num = 0;
+//   int flag_minus = 0;
+//   int mult = 1;
+//   int len = s21_strlen(arr);
+//   len = my_abs((long double)len);
 
-  while (len--) {
-    if (arr[0] == '-') flag_minus = 1;
-    num += (arr[len] - '0') * mult;
-    mult *= 10;
-  }
+//   while (len--) {
+//     if (arr[0] == '-') flag_minus = 1;
+//     num += (arr[len] - '0') * mult;
+//     mult *= 10;
+//   }
 
-  flag_minus ? -num : num;
-  return num;
-}
+//   flag_minus ? -num : num;
+//   return num;
+// }
 
-int s21_sscanf(char *buffer, const char *format, ...) {
-  va_list args;
-  va_start(args, format);
-  char *find = s21_strchr(format, '%');
-  while (find != S21_NULL) {
-    char *start = find + 1;
-    find = s21_strpbrk(format, specifications);
-    switch (*find) {
-      case 'd':
-        char str[1024] = "";
-        int *p = va_arg(args, int *);
-        read_d(str, buffer);
-        printf("%s", str);
-        *p = sasha_func(str);
-        break;
+// int s21_sscanf(char *buffer, const char *format, ...) {
+//   va_list args;
+//   va_start(args, format);
+//   char *find = s21_strchr(format, '%');
+//   while (find != S21_NULL) {
+//     char *start = find + 1;
+//     find = s21_strpbrk(format, specifications);
+//     switch (*find) {
+//       case 'd':
+//         char str[1024] = "";
+//         int *p = va_arg(args, int *);
+//         read_d(str, buffer);
+//         printf("%s", str);
+//         *p = sasha_func(str);
+//         break;
 
-      default:
-        break;
-    }
+//       default:
+//         break;
+//     }
 
-    find = s21_strchr(format, '%');
-    format = find + 1;
-  }
-  return 0;
-}
+//     find = s21_strchr(format, '%');
+//     format = find + 1;
+//   }
+//   return 0;
+// }
