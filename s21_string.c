@@ -320,168 +320,182 @@ specification_read read_flags(int len, const char *format, va_list args) {
   return spec_read;
 }
 
-int read_specificator(char *str, const char *format, int len, char specificator,
-                      va_list args, int current_len) {
-  specification_read spec_read = read_flags(len, format, args);
-  spec_read.spec = specificator;
-  char spec_str[1024] = {0};
-  int spec_len = 0;
-  switch (specificator) {
-    case 'c':
-      if (spec_read.lenght < 1) spec_read.lenght = 1;
-      s21_memset(spec_str, ' ', spec_read.lenght - 1);
-      *(spec_str + spec_read.lenght - 1) = va_arg(args, int);
-      spec_len += spec_read.lenght;
-      break;
-    case 'd':
-      if (spec_read.accuracy) spec_read.flag_zero = 0;
-      if (spec_read.flag_h == 1)
-        spec_len += digit_specificator(spec_str, spec_read,
-                                       (short int)va_arg(args, int));
-      else if (spec_read.flag_h == 2)
-        spec_len += digit_specificator(spec_str, spec_read,
-                                       (signed char)va_arg(args, int));
-      else if (spec_read.flag_l == 1)
-        spec_len +=
-            digit_specificator(spec_str, spec_read, va_arg(args, long int));
-      else if (spec_read.flag_l == 2)
-        spec_len += digit_specificator(spec_str, spec_read,
-                                       va_arg(args, long long int));
-      else
-        spec_len += digit_specificator(spec_str, spec_read, va_arg(args, int));
-      break;
-    case 'g':
-      if (spec_read.accuracy == 0 && !spec_read.reading_acc)
-        spec_read.accuracy = 6;
-      if (spec_read.flag_L)
-        spec_len +=
-            digit_specificator(spec_str, spec_read, va_arg(args, long double));
-      else
-        spec_len +=
-            digit_specificator(spec_str, spec_read, va_arg(args, double));
-      break;
-    case 'G':
-      if (spec_read.accuracy == 0 && !spec_read.reading_acc)
-        spec_read.accuracy = 6;
-      if (spec_read.flag_L)
-        spec_len +=
-            digit_specificator(spec_str, spec_read, va_arg(args, long double));
-      else
-        spec_len +=
-            digit_specificator(spec_str, spec_read, va_arg(args, double));
-      break;
-    case 'e':
-      if (spec_read.accuracy == 0 && !spec_read.reading_acc)
-        spec_read.accuracy = 6;
-      if (spec_read.flag_L)
-        spec_len +=
-            digit_specificator(spec_str, spec_read, va_arg(args, long double));
-      else
-        spec_len +=
-            digit_specificator(spec_str, spec_read, va_arg(args, double));
-      break;
-    case 'E':
-      if (spec_read.accuracy == 0 && !spec_read.reading_acc)
-        spec_read.accuracy = 6;
-      if (spec_read.flag_L)
-        spec_len +=
-            digit_specificator(spec_str, spec_read, va_arg(args, long double));
-      else
-        spec_len +=
-            digit_specificator(spec_str, spec_read, va_arg(args, double));
-      break;
-    case 'f':
-      if (spec_read.accuracy == 0 && !spec_read.reading_acc)
-        spec_read.accuracy = 6;
-      if (spec_read.flag_L)
-        spec_len +=
-            digit_specificator(spec_str, spec_read, va_arg(args, long double));
-      else
-        spec_len +=
-            digit_specificator(spec_str, spec_read, va_arg(args, double));
-      break;
-    case 'o':
-      spec_len +=
-          digit_specificator(spec_str, spec_read, va_arg(args, long long int));
-      break;
-    case 'x':
-      if (spec_read.flag_h == 1)
-        spec_len += digit_specificator(spec_str, spec_read,
-                                       (short int)va_arg(args, long long int));
-      else if (spec_read.flag_h == 2)
-        spec_len += digit_specificator(spec_str, spec_read,
-                                       (char)va_arg(args, long long int));
-      else if (spec_read.flag_l == 1)
-        spec_len += digit_specificator(spec_str, spec_read,
-                                       (long int)va_arg(args, long long int));
-      else if (spec_read.flag_l == 2)
-        spec_len += digit_specificator(
-            spec_str, spec_read, (long long int)va_arg(args, long long int));
-      else
-        spec_len += digit_specificator(spec_str, spec_read,
-                                       va_arg(args, long long int));
-      break;
-    case 'X':
-      spec_len +=
-          digit_specificator(spec_str, spec_read, va_arg(args, long long int));
-      break;
-    case 's':
-      spec_len += s_specificator(spec_str, spec_read, va_arg(args, char *));
-      break;
-    case 'u':
-      if (spec_read.flag_h == 1)
-        spec_len += digit_specificator(spec_str, spec_read,
-                                       (short unsigned int)va_arg(args, int));
-      else if (spec_read.flag_h == 2)
-        spec_len += digit_specificator(spec_str, spec_read,
-                                       (unsigned char)va_arg(args, int));
-      else if (spec_read.flag_l == 1)
-        spec_len += digit_specificator(
-            spec_str, spec_read, (long unsigned int)va_arg(args, long int));
-      else if (spec_read.flag_l == 2)
-        spec_len += digit_specificator(
-            spec_str, spec_read,
-            (long long unsigned int)va_arg(args, long long int));
-      else
-        spec_len +=
-            digit_specificator(spec_str, spec_read, va_arg(args, unsigned int));
-      break;
-    case 'i':
-      if (spec_read.accuracy) spec_read.flag_zero = 0;
-      if (spec_read.flag_h == 1)
-        spec_len += digit_specificator(spec_str, spec_read,
-                                       (short int)va_arg(args, int));
-      else if (spec_read.flag_h == 2)
-        spec_len += digit_specificator(spec_str, spec_read,
-                                       (signed char)va_arg(args, int));
-      else if (spec_read.flag_l == 1)
-        spec_len +=
-            digit_specificator(spec_str, spec_read, va_arg(args, long int));
-      else if (spec_read.flag_l == 2)
-        spec_len += digit_specificator(spec_str, spec_read,
-                                       va_arg(args, long long int));
-      else
-        spec_len += digit_specificator(spec_str, spec_read, va_arg(args, int));
-      break;
-    case 'p':
-      spec_read.flag_hash = 1;
-      long long int *ptr = va_arg(args, long long int *);
-      long long int b = (long long int)ptr;
-      spec_len += hexidecimal_number(spec_str, spec_read, b, 0);
-      break;
-    case 'n':
-      *va_arg(args, long long int *) = current_len;
-      break;
-    case '%':
-      *spec_str = '%';
-      spec_len += 1;
-      break;
-  }
+// int read_specificator(char *str, const char *format, int len, char
+// specificator,
+//                       va_list args, int current_len) {
+//   specification_read spec_read = read_flags(len, format, args);
+//   spec_read.spec = specificator;
+//   char spec_str[1024] = {0};
+//   int spec_len = 0;
+//   switch (specificator) {
+//     case 'c':
+//       if (spec_read.lenght < 1) spec_read.lenght = 1;
+//       s21_memset(spec_str, ' ', spec_read.lenght - 1);
+//       *(spec_str + spec_read.lenght - 1) = va_arg(args, int);
+//       spec_len += spec_read.lenght;
+//       break;
+//     case 'd':
+//       if (spec_read.accuracy) spec_read.flag_zero = 0;
+//       if (spec_read.flag_h == 1)
+//         spec_len += digit_specificator(spec_str, spec_read,
+//                                        (short int)va_arg(args, int));
+//       else if (spec_read.flag_h == 2)
+//         spec_len += digit_specificator(spec_str, spec_read,
+//                                        (signed char)va_arg(args, int));
+//       else if (spec_read.flag_l == 1)
+//         spec_len +=
+//             digit_specificator(spec_str, spec_read, va_arg(args, long int));
+//       else if (spec_read.flag_l == 2)
+//         spec_len += digit_specificator(spec_str, spec_read,
+//                                        va_arg(args, long long int));
+//       else
+//         spec_len += digit_specificator(spec_str, spec_read, va_arg(args,
+//         int));
+//       break;
+//     case 'g':
+//       if (spec_read.accuracy == 0 && !spec_read.reading_acc)
+//         spec_read.accuracy = 6;
+//       if (spec_read.flag_L)
+//         spec_len +=
+//             digit_specificator(spec_str, spec_read, va_arg(args, long
+//             double));
+//       else
+//         spec_len +=
+//             digit_specificator(spec_str, spec_read, va_arg(args, double));
+//       break;
+//     case 'G':
+//       if (spec_read.accuracy == 0 && !spec_read.reading_acc)
+//         spec_read.accuracy = 6;
+//       if (spec_read.flag_L)
+//         spec_len +=
+//             digit_specificator(spec_str, spec_read, va_arg(args, long
+//             double));
+//       else
+//         spec_len +=
+//             digit_specificator(spec_str, spec_read, va_arg(args, double));
+//       break;
+//     case 'e':
+//       if (spec_read.accuracy == 0 && !spec_read.reading_acc)
+//         spec_read.accuracy = 6;
+//       if (spec_read.flag_L)
+//         spec_len +=
+//             digit_specificator(spec_str, spec_read, va_arg(args, long
+//             double));
+//       else
+//         spec_len +=
+//             digit_specificator(spec_str, spec_read, va_arg(args, double));
+//       break;
+//     case 'E':
+//       if (spec_read.accuracy == 0 && !spec_read.reading_acc)
+//         spec_read.accuracy = 6;
+//       if (spec_read.flag_L)
+//         spec_len +=
+//             digit_specificator(spec_str, spec_read, va_arg(args, long
+//             double));
+//       else
+//         spec_len +=
+//             digit_specificator(spec_str, spec_read, va_arg(args, double));
+//       break;
+//     case 'f':
+//       if (spec_read.accuracy == 0 && !spec_read.reading_acc)
+//         spec_read.accuracy = 6;
+//       if (spec_read.flag_L)
+//         spec_len +=
+//             digit_specificator(spec_str, spec_read, va_arg(args, long
+//             double));
+//       else
+//         spec_len +=
+//             digit_specificator(spec_str, spec_read, va_arg(args, double));
+//       break;
+//     case 'o':
+//       spec_len +=
+//           digit_specificator(spec_str, spec_read, va_arg(args, long long
+//           int));
+//       break;
+//     case 'x':
+//       if (spec_read.flag_h == 1)
+//         spec_len += digit_specificator(spec_str, spec_read,
+//                                        (short int)va_arg(args, long long
+//                                        int));
+//       else if (spec_read.flag_h == 2)
+//         spec_len += digit_specificator(spec_str, spec_read,
+//                                        (char)va_arg(args, long long int));
+//       else if (spec_read.flag_l == 1)
+//         spec_len += digit_specificator(spec_str, spec_read,
+//                                        (long int)va_arg(args, long long
+//                                        int));
+//       else if (spec_read.flag_l == 2)
+//         spec_len += digit_specificator(
+//             spec_str, spec_read, (long long int)va_arg(args, long long int));
+//       else
+//         spec_len += digit_specificator(spec_str, spec_read,
+//                                        va_arg(args, long long int));
+//       break;
+//     case 'X':
+//       spec_len +=
+//           digit_specificator(spec_str, spec_read, va_arg(args, long long
+//           int));
+//       break;
+//     case 's':
+//       spec_len += s_specificator(spec_str, spec_read, va_arg(args, char *));
+//       break;
+//     case 'u':
+//       if (spec_read.flag_h == 1)
+//         spec_len += digit_specificator(spec_str, spec_read,
+//                                        (short unsigned int)va_arg(args,
+//                                        int));
+//       else if (spec_read.flag_h == 2)
+//         spec_len += digit_specificator(spec_str, spec_read,
+//                                        (unsigned char)va_arg(args, int));
+//       else if (spec_read.flag_l == 1)
+//         spec_len += digit_specificator(
+//             spec_str, spec_read, (long unsigned int)va_arg(args, long int));
+//       else if (spec_read.flag_l == 2)
+//         spec_len += digit_specificator(
+//             spec_str, spec_read,
+//             (long long unsigned int)va_arg(args, long long int));
+//       else
+//         spec_len +=
+//             digit_specificator(spec_str, spec_read, va_arg(args, unsigned
+//             int));
+//       break;
+//     case 'i':
+//       if (spec_read.accuracy) spec_read.flag_zero = 0;
+//       if (spec_read.flag_h == 1)
+//         spec_len += digit_specificator(spec_str, spec_read,
+//                                        (short int)va_arg(args, int));
+//       else if (spec_read.flag_h == 2)
+//         spec_len += digit_specificator(spec_str, spec_read,
+//                                        (signed char)va_arg(args, int));
+//       else if (spec_read.flag_l == 1)
+//         spec_len +=
+//             digit_specificator(spec_str, spec_read, va_arg(args, long int));
+//       else if (spec_read.flag_l == 2)
+//         spec_len += digit_specificator(spec_str, spec_read,
+//                                        va_arg(args, long long int));
+//       else
+//         spec_len += digit_specificator(spec_str, spec_read, va_arg(args,
+//         int));
+//       break;
+//     case 'p':
+//       spec_read.flag_hash = 1;
+//       long long int *ptr = va_arg(args, long long int *);
+//       long long int b = (long long int)ptr;
+//       spec_len += hexidecimal_number(spec_str, spec_read, b, 0);
+//       break;
+//     case 'n':
+//       *va_arg(args, long long int *) = current_len;
+//       break;
+//     case '%':
+//       *spec_str = '%';
+//       spec_len += 1;
+//       break;
+//   }
 
-  s21_strncat(str, spec_str, spec_len);
+//   s21_strncat(str, spec_str, spec_len);
 
-  return spec_len;
-}
+//   return spec_len;
+// }
 
 char *ftos(char *res, long double num, int accuracy, int need_dot) {
   long long int ipart = num;
@@ -624,3 +638,187 @@ void read_d(char *str, char *buffer) {
 //   }
 //   return 0;
 // }
+
+int char_handler(char *spec_str, specification_read *spec_read, va_list args) {
+  if (spec_read->lenght < 1) {
+    spec_read->lenght = 1;
+  }
+
+  s21_memset(spec_str, ' ', spec_read->lenght - 1);
+  *(spec_str + spec_read->lenght - 1) = va_arg(args, int);
+
+  return spec_read->lenght;
+}
+
+int decimal_handler(char *spec_str, specification_read *spec_read,
+                    va_list args) {
+  int value;
+
+  if (spec_read->accuracy) spec_read->flag_zero = 0;
+
+  if (spec_read->flag_h == 1)
+    value = (short int)va_arg(args, int);
+  else if (spec_read->flag_h == 2)
+    value = (signed char)va_arg(args, int);
+  else if (spec_read->flag_l == 1)
+    value = va_arg(args, long int);
+  else if (spec_read->flag_l == 2)
+    value = va_arg(args, long long int);
+  else
+    value = va_arg(args, int);
+
+  return digit_specificator(spec_str, *spec_read, value);
+}
+
+int float_handler(char *spec_str, specification_read *spec_read, va_list args) {
+  if (spec_read->accuracy == 0 && !spec_read->reading_acc) {
+    spec_read->accuracy = 6;
+  }
+
+  double value;
+  if (spec_read->flag_L)
+    value = va_arg(args, long double);
+  else
+    value = va_arg(args, double);
+
+  return digit_specificator(spec_str, *spec_read, value);
+}
+
+int octal_handler(char *spec_str, specification_read *spec_read, va_list args) {
+  long long int value = va_arg(args, long long int);
+  return digit_specificator(spec_str, *spec_read, value);
+}
+
+int hexidecimal_handler(char *spec_str, specification_read *spec_read,
+                        va_list args) {
+  long long int value;
+  if (spec_read->flag_h == 1)
+    value = (short int)va_arg(args, long long int);
+  else if (spec_read->flag_h == 2)
+    value = (char)va_arg(args, long long int);
+  else if (spec_read->flag_l == 1)
+    value = (long int)va_arg(args, long long int);
+  else if (spec_read->flag_l == 2)
+    value = (long long int)va_arg(args, long long int);
+  else
+    value = va_arg(args, long long int);
+
+  return digit_specificator(spec_str, *spec_read, value);
+}
+
+int string_handler(char *spec_str, specification_read *spec_read,
+                   va_list args) {
+  char *value = va_arg(args, char *);
+  return s_specificator(spec_str, *spec_read, value);
+}
+
+int unsigned_int_handler(char *spec_str, specification_read *spec_read,
+                         va_list args) {
+  unsigned int value;
+  if (spec_read->flag_h == 1)
+    value = (short unsigned int)va_arg(args, int);
+  else if (spec_read->flag_h == 2)
+    value = (unsigned char)va_arg(args, int);
+  else if (spec_read->flag_l == 1)
+    value = (long unsigned int)va_arg(args, long int);
+  else if (spec_read->flag_l == 2)
+    value = (long long unsigned int)va_arg(args, long long int);
+  else
+    value = va_arg(args, unsigned int);
+
+  return digit_specificator(spec_str, *spec_read, value);
+}
+
+int signed_int_handler(char *spec_str, specification_read *spec_read,
+                       va_list args) {
+  int value;
+
+  if (spec_read->accuracy) spec_read->flag_zero = 0;
+
+  if (spec_read->flag_h == 1)
+    value = (short int)va_arg(args, int);
+  else if (spec_read->flag_h == 2)
+    value = (signed char)va_arg(args, int);
+  else if (spec_read->flag_l == 1)
+    value = va_arg(args, long int);
+  else if (spec_read->flag_l == 2)
+    value = va_arg(args, long long int);
+  else
+    value = va_arg(args, int);
+
+  return digit_specificator(spec_str, *spec_read, value);
+}
+
+int pointer_handler(char *spec_str, specification_read *spec_read,
+                    va_list args) {
+  spec_read->flag_hash = 1;
+  long long int *ptr = va_arg(args, long long int *);
+  long long int value = (long long int)ptr;
+  return hexidecimal_number(spec_str, *spec_read, value, 0);
+}
+
+int count_handler(specification_read *spec_read, va_list args,
+                  int current_len) {
+  long long int *count_ptr = va_arg(args, long long int *);
+  *count_ptr = current_len;
+}
+
+int percent_handler(char *spec_str) {
+  *spec_str = '%';
+  return 1;
+}
+
+int read_specificator(char *str, const char *format, int len, char specificator,
+                      va_list args, int current_len) {
+  specification_read spec_read = read_flags(len, format, args);
+  spec_read.spec = specificator;
+  char spec_str[1024] = {0};
+  int spec_len = 0;
+
+  switch (specificator) {
+    case 'c':
+      spec_len = char_hanlder(spec_str, &spec_read, args);
+      break;
+    case 'd':
+      spec_len = decimal_hanlder(spec_str, &spec_read, args);
+      break;
+    case 'g':
+    case 'G':
+    case 'e':
+    case 'E':
+    case 'f':
+      spec_len = float_handler(spec_str, &spec_read, args);
+      break;
+    case 'o':
+      spec_len = octal_handler(spec_str, &spec_read, args);
+      break;
+    case 'x':
+    case 'X':
+      spec_len = hexidecimal_handler(spec_str, &spec_read, args);
+      break;
+    case 's':
+      spec_len = string_handler(spec_str, &spec_read, args);
+      break;
+    case 'u':
+      spec_len = unsigned_int_handler(spec_str, &spec_read, args);
+      break;
+    case 'i':
+      spec_len = signed_int_hanlder(spec_str, &spec_read, args);
+      break;
+    case 'p':
+      spec_len = pointer_hanlder(spec_str, &spec_read, args);
+      break;
+    case 'n':
+      spec_len = count_hanlder(spec_str, &spec_read, args);
+      break;
+    case '%':
+      spec_len = percent_handler(spec_str);
+      break;
+    default:
+      break;
+  }
+
+  s21_strncat(str, spec_str, spec_len);
+
+  return spec_len;
+}
