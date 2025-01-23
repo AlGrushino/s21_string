@@ -189,4 +189,21 @@ void *s21_to_lower(const char *str);
 void *s21_insert(const char *src, const char *str, s21_size_t start_index);
 void *s21_trim(const char *src, const char *trim_chars);
 
+// read_specificator decomposition
+int char_handler(char *spec_str, specification_read *spec_read, va_list args);
+int decimal_handler(char *spec_str, specification_read *spec_read,
+                    va_list args);
+int float_handler(char *spec_str, specification_read *spec_read, va_list args);
+int octal_handler(char *spec_str, specification_read *spec_read, va_list args);
+int hexidecimal_handler(char *spec_str, specification_read *spec_read,
+                        va_list args);
+int string_handler(char *spec_str, specification_read *spec_read, va_list args);
+int unsigned_int_handler(char *spec_str, specification_read *spec_read,
+                         va_list args);
+int signed_int_handler(char *spec_str, specification_read *spec_read,
+                       va_list args);
+int pointer_handler(char *spec_str, specification_read *spec_read,
+                    va_list args);
+void count_handler(va_list args, int current_len);
+int percent_handler(char *spec_str);
 #endif
