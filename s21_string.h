@@ -204,6 +204,6 @@ int signed_int_handler(char *spec_str, specification_read *spec_read,
                        va_list args);
 int pointer_handler(char *spec_str, specification_read *spec_read,
                     va_list args);
-int count_handler(specification_read *spec_read, va_list args, int current_len);
+void count_handler(va_list args, int current_len);
 int percent_handler(char *spec_str);
 #endif

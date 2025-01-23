@@ -757,8 +757,7 @@ int pointer_handler(char *spec_str, specification_read *spec_read,
   return hexidecimal_number(spec_str, *spec_read, value, 0);
 }
 
-int count_handler(specification_read *spec_read, va_list args,
-                  int current_len) {
+void count_handler(va_list args, int current_len) {
   long long int *count_ptr = va_arg(args, long long int *);
   *count_ptr = current_len;
 }
@@ -777,10 +776,10 @@ int read_specificator(char *str, const char *format, int len, char specificator,
 
   switch (specificator) {
     case 'c':
-      spec_len = char_hanlder(spec_str, &spec_read, args);
+      spec_len = char_handler(spec_str, &spec_read, args);
       break;
     case 'd':
-      spec_len = decimal_hanlder(spec_str, &spec_read, args);
+      spec_len = decimal_handler(spec_str, &spec_read, args);
       break;
     case 'g':
     case 'G':
@@ -803,13 +802,13 @@ int read_specificator(char *str, const char *format, int len, char specificator,
       spec_len = unsigned_int_handler(spec_str, &spec_read, args);
       break;
     case 'i':
-      spec_len = signed_int_hanlder(spec_str, &spec_read, args);
+      spec_len = signed_int_handler(spec_str, &spec_read, args);
       break;
     case 'p':
-      spec_len = pointer_hanlder(spec_str, &spec_read, args);
+      spec_len = pointer_handler(spec_str, &spec_read, args);
       break;
     case 'n':
-      spec_len = count_hanlder(spec_str, &spec_read, args);
+      count_handler(args, current_len);
       break;
     case '%':
       spec_len = percent_handler(spec_str);
