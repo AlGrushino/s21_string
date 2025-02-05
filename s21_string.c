@@ -652,7 +652,7 @@ int char_handler(char *spec_str, specification_read *spec_read, va_list args) {
 
 int decimal_handler(char *spec_str, specification_read *spec_read,
                     va_list args) {
-  int value;
+  long long int value;
 
   if (spec_read->accuracy) spec_read->flag_zero = 0;
 
@@ -714,7 +714,7 @@ int string_handler(char *spec_str, specification_read *spec_read,
 
 int unsigned_int_handler(char *spec_str, specification_read *spec_read,
                          va_list args) {
-  unsigned int value;
+  unsigned long long int value;
   if (spec_read->flag_h == 1)
     value = (short unsigned int)va_arg(args, int);
   else if (spec_read->flag_h == 2)
