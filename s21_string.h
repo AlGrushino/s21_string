@@ -185,6 +185,7 @@ char *reversed_unsigned_digit(char *str, long long unsigned int num,
 char *ftos(char *res, long double num, int accuracy, int need_dot);
 int read_specificator(char *str, const char *format, int len, char specificator,
                       va_list args, int current_len);
+double my_abs(long double a);
 
 // C#
 void *s21_to_upper(const char *str);
