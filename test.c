@@ -623,6 +623,12 @@ START_TEST(s21_strerror_n3) {
 }
 END_TEST
 
+// sscanf tests
+
+// START_TEST(s21_sscanf_read_d1)
+
+// END_TEST
+
 int main(void) {
   Suite *s1 = suite_create("Core");
   TCase *tc1_1 = tcase_create("Core");
