@@ -184,7 +184,7 @@ int science_number(char *str, specification_read spec_read, long double num) {
   return etos(str, spec_read, num, e);
 }
 
-void fmt_string(char *ptr, specification_read spec_read, int num_len, char space, const char* num_str){
+char* fmt_string(char *ptr, specification_read spec_read, int num_len, char space, const char* num_str){
   if (spec_read.flag_minus || spec_read.flag_zero) {
       if (space != 0) *(ptr++) = space;
       if (spec_read.flag_zero) {
@@ -204,6 +204,7 @@ void fmt_string(char *ptr, specification_read spec_read, int num_len, char space
       s21_strncpy(ptr, num_str, num_len);
       ptr += num_len;
     }
+  return ptr;
 }
 
 int digit_specificator(char *str, specification_read spec_read,
@@ -254,26 +255,7 @@ int digit_specificator(char *str, specification_read spec_read,
 
   spec_read.lenght = fmax(0, spec_read.lenght - num_len - (space != 0));
 
-  fmt_string(ptr, spec_read, num_len, space, num_str);
-  // if (spec_read.flag_minus || spec_read.flag_zero) {
-  //   if (space != 0) *(ptr++) = space;
-  //   if (spec_read.flag_zero) {
-  //     s21_memset(ptr, '0', spec_read.lenght);
-  //     ptr += spec_read.lenght;
-  //   }
-  //   s21_strncpy(ptr, num_str, num_len);
-  //   ptr += num_len;
-  //   if (spec_read.flag_minus) {
-  //     s21_memset(ptr, ' ', spec_read.lenght);
-  //     ptr += spec_read.lenght;
-  //   }
-  // } else {
-  //   s21_memset(ptr, ' ', spec_read.lenght);
-  //   ptr += spec_read.lenght;
-  //   if (space != 0) *(ptr++) = space;
-  //   s21_strncpy(ptr, num_str, num_len);
-  //   ptr += num_len;
-  // }
+  ptr = fmt_string(ptr, spec_read, num_len, space, num_str);
 
   return ptr - str;
 }
