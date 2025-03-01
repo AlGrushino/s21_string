@@ -209,5 +209,5 @@ int percent_handler(char *spec_str);
 
 int digit_specificator(char *str, specification_read spec_read,
                        long double num);
-void fmt_string(char *ptr, specification_read spec_read, int num_len, char space, const char* num_str);
+char* fmt_string(char *ptr, specification_read spec_read, int num_len, char space, const char* num_str);
 #endif
