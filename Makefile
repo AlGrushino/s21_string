@@ -9,7 +9,8 @@ clean:
 
 s21_string.a: clean minifunc.o c_sharp.o
 	$(CC) $(CFLAGS) -c s21_string.c
-	ar rcs s21_string.a s21_string.o minifunc.o c_sharp.o
+	$(CC) $(CFLAGS) -c s21_sscanf.c
+	ar rcs s21_string.a s21_string.o s21_sscanf.o minifunc.o c_sharp.o
 
 minifunc.o: minifunc.c
 	$(CC) $(CFLAGS) -c minifunc.c
@@ -22,7 +23,7 @@ run_test:
 	@make test
 
 test: s21_string.a
-	@$(CC) $(CCOV) test.c c_sharp.c s21_string.c minifunc.c -lcheck -lm -lsubunit -o test
+	@$(CC) $(CCOV) test.c c_sharp.c s21_string.c s21_sscanf.c minifunc.c -lcheck -lm -lsubunit -o test
 	@./test
 
 gcov_report: test

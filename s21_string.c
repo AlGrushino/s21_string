@@ -419,11 +419,11 @@ int s21_sprintf(char *str, const char *format, ...) {
   return str - start;
 }
 
-void read_d(char *str, char *buffer) {
-  while (*buffer > '0' && *buffer < '9') {
-    *(str++) = *(buffer++);
-  }
-}
+// void read_d(char *str, char *buffer) {
+//   while (*buffer > '0' && *buffer < '9') {
+//     *(str++) = *(buffer++);
+//   }
+// }
 
 // int sasha_func(char *arr) {
 //   int num = 0;

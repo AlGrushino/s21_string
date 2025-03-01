@@ -14,6 +14,9 @@ typedef long unsigned int s21_size_t;
 #define hexidecimal_big "0123456789ABCDEF"
 #define flags "-+ #0"
 
+#include <ctype.h>
+#include <limits.h>
+
 #ifdef __APPLE__
 #define MAX_ERRLIST 107
 #define s21_error                                                              \
@@ -155,7 +158,7 @@ typedef struct {
 } specification_read;
 
 int s21_sprintf(char *str, const char *format, ...);
-int s21_sscanf(char *buffer, const char *format, ...);
+int s21_sscanf(char * buffer, char * format, ...);
 
 void *s21_memchr(const void *str, int c, s21_size_t n);
 int s21_memcmp(const void *str1, const void *str2, s21_size_t n);
@@ -182,6 +185,7 @@ char *reversed_unsigned_digit(char *str, long long unsigned int num,
 char *ftos(char *res, long double num, int accuracy, int need_dot);
 int read_specificator(char *str, const char *format, int len, char specificator,
                       va_list args, int current_len);
+double my_abs(long double a);
 
 // C#
 void *s21_to_upper(const char *str);
