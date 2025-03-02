@@ -5,7 +5,6 @@
 #include <string.h>
 
 #include "s21_string.h"
-#include "s21_sscanf.c"
 
 START_TEST(s21_strncat_1) {
   char s21_str[10] = "abc";
@@ -631,7 +630,7 @@ START_TEST(s21_sscanf_d1) {
   char * s21_arr = "21";
   char * arr = "21";
 
-  s21_sscanf(s21_arr, "%d", s21_res);
+  s21_sscanf(s21_arr, "%d", &s21_res);
   sscanf(arr, "%d", &res);
 
   ck_assert_int_eq(s21_res, res);
