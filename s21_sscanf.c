@@ -76,7 +76,6 @@ int read_s(char *str, char *buffer, int width) {
     width_count++;
     counter++;
   }
-  //*(str++) = '\0';
   return counter;
 }
 

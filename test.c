@@ -5,6 +5,7 @@
 #include <string.h>
 
 #include "s21_string.h"
+#include "s21_sscanf.c"
 
 START_TEST(s21_strncat_1) {
   char s21_str[10] = "abc";
@@ -625,9 +626,18 @@ END_TEST
 
 // sscanf tests
 
-// START_TEST(s21_sscanf_read_d1)
+START_TEST(s21_sscanf_d1) {
+  int s21_res, res;
+  char * s21_arr = "21";
+  char * arr = "21";
 
-// END_TEST
+  s21_sscanf(s21_arr, "%d", s21_res);
+  sscanf(arr, "%d", &res);
+
+  ck_assert_int_eq(s21_res, res);
+}
+END_TEST
+
 
 int main(void) {
   Suite *s1 = suite_create("Core");
@@ -707,6 +717,9 @@ int main(void) {
   tcase_add_test(tc1_1, s21_strerror_n1);
   tcase_add_test(tc1_1, s21_strerror_n2);
   tcase_add_test(tc1_1, s21_strerror_n3);
+
+  // sscanf
+  tcase_add_test(tc1_1, s21_sscanf_d1);
 
   srunner_set_fork_status(sr, CK_NOFORK);
   srunner_run_all(sr, CK_ENV);
