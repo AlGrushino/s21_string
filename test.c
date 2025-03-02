@@ -638,6 +638,110 @@ START_TEST(s21_sscanf_d1) {
 END_TEST
 
 
+START_TEST(s21_sscanf_d2) {
+  int s21_res_1, s21_res_2, res_1, res_2;
+  char * s21_arr = "21 42";
+  char * arr = "21 42";
+
+  s21_sscanf(s21_arr, "%d%d", &s21_res_1, &s21_res_2);
+  sscanf(arr, "%d%d", &res_1, &res_2);
+
+  ck_assert_int_eq(s21_res_1, res_1);
+  ck_assert_int_eq(s21_res_2, res_2);
+}
+END_TEST
+
+START_TEST(s21_sscanf_i1) {
+  int s21_res_1, s21_res_2, res_1, res_2;
+  char * s21_arr = "-21 42";
+  char * arr = "-21 42";
+
+  s21_sscanf(s21_arr, "%i%i", &s21_res_1, &s21_res_2);
+  sscanf(arr, "%i%i", &res_1, &res_2);
+
+  ck_assert_int_eq(s21_res_1, res_1);
+  ck_assert_int_eq(s21_res_2, res_2);
+}
+END_TEST
+
+START_TEST(s21_sscanf_f1) {
+  float s21_res_1, s21_res_2, res_1, res_2;
+  char * s21_arr = "-21.21 42.42";
+  char * arr = "-21.21 42.42";
+
+  s21_sscanf(s21_arr, "%f%f", &s21_res_1, &s21_res_2);
+  sscanf(arr, "%f%f", &res_1, &res_2);
+
+  ck_assert_int_eq(s21_res_1, res_1);
+  ck_assert_int_eq(s21_res_2, res_2);
+}
+END_TEST
+
+START_TEST(s21_sscanf_u1) {
+  unsigned int s21_res_1, s21_res_2, res_1, res_2;
+  char * s21_arr = "21 42";
+  char * arr = "21 42";
+
+  s21_sscanf(s21_arr, "%u%u", &s21_res_1, &s21_res_2);
+  sscanf(arr, "%u%u", &res_1, &res_2);
+
+  ck_assert_int_eq(s21_res_1, res_1);
+  ck_assert_int_eq(s21_res_2, res_2);
+}
+END_TEST
+
+START_TEST(s21_sscanf_u2) {
+  unsigned int s21_res_1, s21_res_2, res_1, res_2;
+  char * s21_arr = "0 255";
+  char * arr = "0 255";
+
+  s21_sscanf(s21_arr, "%u%u", &s21_res_1, &s21_res_2);
+  sscanf(arr, "%u%u", &res_1, &res_2);
+
+  ck_assert_int_eq(s21_res_1, res_1);
+  ck_assert_int_eq(s21_res_2, res_2);
+}
+END_TEST
+
+START_TEST(s21_sscanf_o1) {
+  int s21_res_1, s21_res_2, res_1, res_2;
+  char * s21_arr = "0 377";
+  char * arr = "0 377";
+
+  s21_sscanf(s21_arr, "%o%o", &s21_res_1, &s21_res_2);
+  sscanf(arr, "%o%o", &res_1, &res_2);
+
+  ck_assert_int_eq(s21_res_1, res_1);
+  ck_assert_int_eq(s21_res_2, res_2);
+}
+END_TEST
+
+START_TEST(s21_sscanf_x1) {
+  int s21_res_1, s21_res_2, res_1, res_2;
+  char * s21_arr = "0 255";
+  char * arr = "0 255";
+
+  s21_sscanf(s21_arr, "%x%x", &s21_res_1, &s21_res_2);
+  sscanf(arr, "%x%x", &res_1, &res_2);
+
+  ck_assert_int_eq(s21_res_1, res_1);
+  ck_assert_int_eq(s21_res_2, res_2);
+}
+END_TEST
+
+// START_TEST(s21_sscanf_c1) {
+//   int s21_res_1, s21_res_2, res_1, res_2;
+//   char * s21_arr = "0 255";
+//   char * arr = "0 255";
+
+//   s21_sscanf(s21_arr, "%x%x", &s21_res_1, &s21_res_2);
+//   sscanf(arr, "%x%x", &res_1, &res_2);
+
+//   ck_assert_int_eq(s21_res_1, res_1);
+//   ck_assert_int_eq(s21_res_2, res_2);
+// }
+// END_TEST
+
 int main(void) {
   Suite *s1 = suite_create("Core");
   TCase *tc1_1 = tcase_create("Core");
@@ -719,6 +823,18 @@ int main(void) {
 
   // sscanf
   tcase_add_test(tc1_1, s21_sscanf_d1);
+  tcase_add_test(tc1_1, s21_sscanf_d2);
+  tcase_add_test(tc1_1, s21_sscanf_i1);
+  tcase_add_test(tc1_1, s21_sscanf_f1);
+  tcase_add_test(tc1_1, s21_sscanf_u1);
+  tcase_add_test(tc1_1, s21_sscanf_u2);
+  tcase_add_test(tc1_1, s21_sscanf_o1);
+  tcase_add_test(tc1_1, s21_sscanf_x1);
+
+
+
+
+
 
   srunner_set_fork_status(sr, CK_NOFORK);
   srunner_run_all(sr, CK_ENV);
