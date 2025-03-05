@@ -1,6 +1,5 @@
 #include "s21_string.h"
 
-
 int read_d(char *str, char *buffer, int width) {
   int width_count = 0;
   int flag_minus = 0;
@@ -77,7 +76,6 @@ int read_s(char *str, char *buffer, int width) {
     width_count++;
     counter++;
   }
-  //*(str++) = '\0';
   return counter;
 }
 
@@ -175,15 +173,6 @@ int read_u(char *str, char *buffer, int width) {
   }
   return counter;
 }
-
-typedef struct {
-  int width;
-  int len_width_str;
-  int h;
-  int l;
-  int L;
-  int star;
-} after_percentage;
 
 long s21_atoi(char *arr) {
   long num = 0;
