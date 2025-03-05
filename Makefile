@@ -23,7 +23,7 @@ run_test:
 	@make test
 
 test: s21_string.a
-	@$(CC) $(CCOV) test.c c_sharp.c s21_string.c s21_sscanf.c minifunc.c -lcheck -lm -lsubunit -o test
+	@$(CC) $(CCOV) ut_s21_string.c c_sharp.c s21_string.c s21_sscanf.c minifunc.c -lcheck -lm -lsubunit -o test
 	@./test
 
 gcov_report: test
