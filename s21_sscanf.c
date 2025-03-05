@@ -648,6 +648,60 @@ int case_u(int *count_success, int temp_width, char *buffer, va_list args,
   return temp_counter;
 }
 
+int turn_into_counter(int *count_success, int temp_width, char *buffer, va_list args,
+           after_percentage percent, int temp_counter, char find, int *counter){
+
+    switch (find) {
+    case 'd':
+      temp_counter = case_d(count_success, temp_width, buffer, args, percent);
+      break;
+    case 'f':
+      temp_counter = case_f(count_success, temp_width, buffer, args, percent);
+      break;
+    case 'c':
+      temp_counter = case_c(count_success, temp_width, buffer, args, percent);
+      break;
+    case 's':
+      temp_counter = case_s(count_success, temp_width, buffer, args, percent);
+      break;
+    case 'E':
+    case 'e':
+      temp_counter = case_e(count_success, temp_width, buffer, args, percent);
+      break;
+    case 'G':
+    case 'g':
+      temp_counter = case_g(count_success, temp_width, buffer, args, percent);
+      break;
+    case 'X':
+    case 'x':
+      temp_counter = case_x(count_success, temp_width, buffer, args, percent);
+      break;
+    case 'i':
+      temp_counter = case_i(count_success, temp_width, buffer, args, percent);
+      break;
+    case 'p':
+      temp_counter = case_p(count_success, temp_width, buffer, args, percent);
+      break;
+    case 'o':
+      temp_counter = case_o(count_success, temp_width, buffer, args, percent);
+      break;
+    case 'u':
+      temp_counter = case_u(count_success, temp_width, buffer, args, percent);
+      break;
+    case 'n':
+      if (!percent.star) {
+        int *p = va_arg(args, int *);
+        *p = *counter;
+        (*count_success)++;
+      }
+      counter = 0;
+      break;
+    default:
+      break;
+    }
+  return temp_counter;
+}
+
 int s21_sscanf(char *buffer, char *format, ...) {
   va_list args;
   va_start(args, format);
@@ -657,86 +711,17 @@ int s21_sscanf(char *buffer, char *format, ...) {
   int count_success = 0;
   int flag_last_percent = 0;
   while (find != S21_NULL && !flag_last_percent) {
-    if (s21_strlen(find) != 1)
-      find++;
-    else
-      flag_last_percent = 1;
+    if (s21_strlen(find) != 1) find++;
+    else flag_last_percent = 1;
     after_percentage percent = {0};
     read_percentage(&percent, find);
     temp_width = percent.width;
-    if (s21_strpbrk(find, specifications) != S21_NULL)
-      find = s21_strpbrk(find, specifications);
-    else
-      flag_last_percent = 1;
-    if (*find != 'c')
-      skip_whitespace(&buffer, &counter);
-    if (s21_strlen(buffer) == 0) {
-      count_success = -1;
-    }
+    if (s21_strpbrk(find, specifications) != S21_NULL) find = s21_strpbrk(find, specifications);
+    else flag_last_percent = 1;
+    if (*find != 'c') skip_whitespace(&buffer, &counter);
+    if (s21_strlen(buffer) == 0) count_success = -1;
     int temp_counter = 0;
-    switch (*find) {
-    case 'd': {
-      temp_counter = case_d(&count_success, temp_width, buffer, args, percent);
-      break;
-    }
-    case 'f': {
-      temp_counter = case_f(&count_success, temp_width, buffer, args, percent);
-      break;
-    }
-    case 'c': {
-      temp_counter = case_c(&count_success, temp_width, buffer, args, percent);
-      break;
-    }
-    case 's': {
-      temp_counter = case_s(&count_success, temp_width, buffer, args, percent);
-      break;
-    }
-    case 'E':
-    case 'e': {
-      temp_counter = case_e(&count_success, temp_width, buffer, args, percent);
-      break;
-    }
-    case 'G':
-    case 'g': {
-      temp_counter = case_g(&count_success, temp_width, buffer, args, percent);
-      break;
-    }
-    case 'X':
-    case 'x': {
-      temp_counter = case_x(&count_success, temp_width, buffer, args, percent);
-      break;
-    }
-    case 'i': {
-      temp_counter = case_i(&count_success, temp_width, buffer, args, percent);
-
-      break;
-    }
-    case 'p': {
-      temp_counter = case_p(&count_success, temp_width, buffer, args, percent);
-
-      break;
-    }
-    case 'o': {
-      temp_counter = case_o(&count_success, temp_width, buffer, args, percent);
-      break;
-    }
-    case 'u': {
-      temp_counter = case_u(&count_success, temp_width, buffer, args, percent);
-      break;
-    }
-    case 'n': {
-      if (!percent.star) {
-        int *p = va_arg(args, int *);
-        *p = counter;
-        count_success++;
-      }
-      counter = 0;
-      break;
-    }
-    default: {
-      break;
-    }
-    }
+    temp_counter = turn_into_counter(&count_success, temp_width, buffer, args, percent, temp_counter, *find, &counter);
     buffer = buffer + temp_counter;
     counter += temp_counter;
     format = find;
