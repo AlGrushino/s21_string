@@ -1348,6 +1348,9 @@ int main(void) {
   tcase_add_test(tc1_1, s21_sscanf_u3);
   tcase_add_test(tc1_1, s21_sscanf_o1);
   tcase_add_test(tc1_1, s21_sscanf_x1);
+  tcase_add_test(tc1_1, s21_sscanf_c1);
+  tcase_add_test(tc1_1, s21_sscanf_s1);
+  tcase_add_test(tc1_1, s21_sscanf_all);
   tcase_add_test(tc1_1, s21_sscanf_x2);
   tcase_add_test(tc1_1, s21_sscanf_n1);
   tcase_add_test(tc1_1, s21_sscanf_n2);
