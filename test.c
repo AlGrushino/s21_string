@@ -763,6 +763,19 @@ START_TEST(s21_sscanf_u2) {
 }
 END_TEST
 
+START_TEST(s21_sscanf_u3) {
+  unsigned int s21_res_1, res_1;
+  char *s21_arr = "     21";
+  char *arr = "     21";
+
+  s21_sscanf(s21_arr, "%u", &s21_res_1);
+  sscanf(arr, "%u", &res_1);
+
+  ck_assert_uint_eq(s21_res_1, res_1);
+  // ck_assert_int_eq(s21_res_1, res_1);
+}
+END_TEST
+
 START_TEST(s21_sscanf_o1) {
   int s21_res_1, s21_res_2, res_1, res_2;
   char *s21_arr = "0 377";
@@ -789,7 +802,7 @@ START_TEST(s21_sscanf_x1) {
 }
 END_TEST
 
-START_TEST(s21_sscanf_n1) {  // дописать сравнение всей фигни и проверить ниже
+START_TEST(s21_sscanf_n1) {
   int res_n, s21_res_n, num, s21_num;
   char *arr = "21 school";
 
@@ -798,6 +811,8 @@ START_TEST(s21_sscanf_n1) {  // дописать сравнение всей ф�
   s21_sscanf(arr, "%d %s%n", &s21_num, s21_string_res, &s21_res_n);
   sscanf(arr, "%d %s%n", &num, string_res, &res_n);
 
+  ck_assert_int_eq(s21_num, num);
+  ck_assert_str_eq(s21_string_res, string_res);
   ck_assert_int_eq(s21_res_n, res_n);
 }
 END_TEST
@@ -811,6 +826,8 @@ START_TEST(s21_sscanf_n2) {
   s21_sscanf(arr, "%d %s%n", &s21_num, s21_string_res, &s21_res_n);
   sscanf(arr, "%d %s%n", &num, string_res, &res_n);
 
+  ck_assert_int_eq(s21_num, num);
+  ck_assert_str_eq(s21_string_res, string_res);
   ck_assert_int_eq(s21_res_n, res_n);
 }
 END_TEST
@@ -824,6 +841,7 @@ START_TEST(s21_sscanf_n3) {
   s21_sscanf(arr, "%s%n", s21_string_res, &s21_res_n);
   sscanf(arr, "%s%n", string_res, &res_n);
 
+  ck_assert_str_eq(string_res, s21_string_res);
   ck_assert_int_eq(s21_res_n, res_n);
 }
 END_TEST
@@ -837,6 +855,7 @@ START_TEST(s21_sscanf_n4) {
   s21_sscanf(arr, "%s%n", s21_string_res, &s21_res_n);
   sscanf(arr, "%s%n", string_res, &res_n);
 
+  ck_assert_str_eq(s21_string_res, string_res);
   ck_assert_int_eq(s21_res_n, res_n);
 }
 END_TEST
@@ -850,6 +869,7 @@ START_TEST(s21_sscanf_n5) {
   s21_sscanf(arr, "%s%n", s21_string_res, &s21_res_n);
   sscanf(arr, "%s%n", string_res, &res_n);
 
+  ck_assert_str_eq(s21_string_res, string_res);
   ck_assert_int_eq(s21_res_n, res_n);
 }
 END_TEST
@@ -940,7 +960,7 @@ START_TEST(s21_sscanf_e1) {
   s21_sscanf(notation, "%le", &s21_res);
   sscanf(notation, "%le", &res);
 
-  ck_assert_int_eq(s21_res, res);
+  ck_assert_double_eq(s21_res, res);
 }
 END_TEST
 
@@ -951,7 +971,7 @@ START_TEST(s21_sscanf_e2) {
   s21_sscanf(notation, "%lE", &s21_res);
   sscanf(notation, "%lE", &res);
 
-  ck_assert_int_eq(s21_res, res);
+  ck_assert_double_eq(s21_res, res);
 }
 END_TEST
 
@@ -962,7 +982,7 @@ START_TEST(s21_sscanf_g1) {
   s21_sscanf(notation, "%lg", &s21_res);
   sscanf(notation, "%lg", &res);
 
-  ck_assert_int_eq(s21_res, res);
+  ck_assert_double_eq(s21_res, res);
 }
 END_TEST
 
@@ -973,7 +993,7 @@ START_TEST(s21_sscanf_g2) {
   s21_sscanf(notation, "%lG", &s21_res);
   sscanf(notation, "%lG", &res);
 
-  ck_assert_int_eq(s21_res, res);
+  ck_assert_double_eq(s21_res, res);
 }
 END_TEST
 
@@ -984,7 +1004,7 @@ START_TEST(s21_sscanf_g3) {
   s21_sscanf(notation, "%lg", &s21_res);
   sscanf(notation, "%lg", &res);
 
-  ck_assert_int_eq(s21_res, res);
+  ck_assert_double_eq(s21_res, res);
 }
 END_TEST
 
@@ -995,7 +1015,7 @@ START_TEST(s21_sscanf_g4) {
   s21_sscanf(notation, "%lG", &s21_res);
   sscanf(notation, "%lG", &res);
 
-  ck_assert_int_eq(s21_res, res);
+  ck_assert_double_eq(s21_res, res);
 }
 END_TEST
 
@@ -1011,6 +1031,28 @@ END_TEST
 //   ck_assert_str_eq(res, res_21);
 // }
 // END_TEST
+
+START_TEST(s21_sscanf_s1) {
+  char *string = "school 21";
+  char res[1024], s21_res[1024];
+
+  s21_sscanf(string, "%s", s21_res);
+  sscanf(string, "%s", res);
+
+  ck_assert_str_eq(s21_res, res);
+}
+END_TEST
+
+START_TEST(s21_sscanf_s2) {
+  char *string = "            school 21";
+  char res[1024], s21_res[1024];
+
+  s21_sscanf(string, "%s", s21_res);
+  sscanf(string, "%s", res);
+
+  ck_assert_str_eq(s21_res, res);
+}
+END_TEST
 
 int main(void) {
   Suite *s1 = suite_create("Core");
@@ -1103,6 +1145,7 @@ int main(void) {
   tcase_add_test(tc1_1, s21_sscanf_f1);
   tcase_add_test(tc1_1, s21_sscanf_u1);
   tcase_add_test(tc1_1, s21_sscanf_u2);
+  tcase_add_test(tc1_1, s21_sscanf_u3);
   tcase_add_test(tc1_1, s21_sscanf_o1);
   tcase_add_test(tc1_1, s21_sscanf_x1);
   tcase_add_test(tc1_1, s21_sscanf_n1);
@@ -1123,6 +1166,10 @@ int main(void) {
   tcase_add_test(tc1_1, s21_sscanf_g2);
   tcase_add_test(tc1_1, s21_sscanf_g3);
   tcase_add_test(tc1_1, s21_sscanf_g4);
+  tcase_add_test(tc1_1, s21_sscanf_s1);
+  tcase_add_test(tc1_1, s21_sscanf_s2);
+
+  
   // tcase_add_test(tc1_1, s21_sscanf_star1);
 
 
