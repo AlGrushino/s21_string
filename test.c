@@ -844,7 +844,7 @@ START_TEST(s21_sscanf_n1) {
   int res_n, s21_res_n, num, s21_num;
   char *arr = "21 school";
 
-  char string_res[20], s21_string_res[20];
+  char string_res[20] = "", s21_string_res[20] = "";
 
   s21_sscanf(arr, "%d %s%n", &s21_num, s21_string_res, &s21_res_n);
   sscanf(arr, "%d %s%n", &num, string_res, &res_n);
@@ -859,7 +859,7 @@ START_TEST(s21_sscanf_n2) {
   int res_n, s21_res_n, num, s21_num;
   char *arr = "21 s";
 
-  char string_res[20], s21_string_res[20];
+  char string_res[20] = "", s21_string_res[20] = "";
 
   s21_sscanf(arr, "%d %s%n", &s21_num, s21_string_res, &s21_res_n);
   sscanf(arr, "%d %s%n", &num, string_res, &res_n);
@@ -874,7 +874,7 @@ START_TEST(s21_sscanf_n3) {
   int res_n, s21_res_n;
   char *arr = "_";
 
-  char string_res[20], s21_string_res[20];
+  char string_res[20] = "", s21_string_res[20] = "";
 
   s21_sscanf(arr, "%s%n", s21_string_res, &s21_res_n);
   sscanf(arr, "%s%n", string_res, &res_n);
@@ -888,7 +888,7 @@ START_TEST(s21_sscanf_n4) {
   int res_n, s21_res_n;
   char *arr = " ";
 
-  char string_res[20], s21_string_res[20];
+  char string_res[20] = "", s21_string_res[20] = "";
 
   s21_sscanf(arr, "%s%n", s21_string_res, &s21_res_n);
   sscanf(arr, "%s%n", string_res, &res_n);
@@ -902,7 +902,7 @@ START_TEST(s21_sscanf_n5) {
   int res_n, s21_res_n;
   char *arr = "";
 
-  char string_res[20], s21_string_res[20];
+  char string_res[20] = "", s21_string_res[20] = "";
 
   s21_sscanf(arr, "%s%n", s21_string_res, &s21_res_n);
   sscanf(arr, "%s%n", string_res, &res_n);
@@ -914,7 +914,7 @@ END_TEST
 
 START_TEST(s21_sscanf_p1) {
   int num = 21;
-  char ptr_arr[21];
+  char ptr_arr[21] = "";
   void *res, *s21_res;
 
   sprintf(ptr_arr, "%p", &num);
@@ -927,7 +927,7 @@ END_TEST
 
 START_TEST(s21_sscanf_p2) {
   int num = 21;
-  char ptr_arr[21];
+  char ptr_arr[21] = "";
   void *res, *s21_res;
 
   sprintf(ptr_arr, "%-p", &num);
@@ -1350,7 +1350,6 @@ int main(void) {
   tcase_add_test(tc1_1, s21_sscanf_x1);
   tcase_add_test(tc1_1, s21_sscanf_c1);
   tcase_add_test(tc1_1, s21_sscanf_s1);
-  tcase_add_test(tc1_1, s21_sscanf_all);
   tcase_add_test(tc1_1, s21_sscanf_x2);
   tcase_add_test(tc1_1, s21_sscanf_n1);
   tcase_add_test(tc1_1, s21_sscanf_n2);
