@@ -5,12 +5,7 @@ int read_d(char *str, char *buffer, int width) {
   int flag_minus = 0;
   int counter = 0;
   if (width == 0) width = 1024;
-  if (buffer[0] == ' ') {
-    while (*buffer == ' ') {
-      counter++;
-      buffer++;
-    }
-  } else if (buffer[0] == '+') {
+  if (buffer[0] == '+') {
     counter++;
     buffer++;
     width_count++;
@@ -44,12 +39,7 @@ int read_f(char *str, char *buffer, int width) {
   int width_count = 0;
   int flag_minus = 0;
   int counter = 0;
-  if (buffer[0] == ' ') {
-    while (*buffer == ' ') {
-      counter++;
-      buffer++;
-    }
-  } else if (buffer[0] == '+') {
+  if (buffer[0] == '+') {
     counter++;
     buffer++;
     width_count++;
@@ -84,12 +74,6 @@ int read_e(char *str, char *buffer, int width) {
   int width_count = 0;
   int flag_e = 0;
   int counter = 0;
-  if (buffer[0] == ' ') {
-    while (*buffer == ' ') {
-      counter++;
-      buffer++;
-    }
-  }
   if (width == 0) width = 1024;
   while (((*buffer >= '0' && *buffer <= '9') || *buffer == '.' ||
           *buffer == 'E' || *buffer == 'e' || *buffer == '+' ||
@@ -111,12 +95,6 @@ int read_x(char *str, char *buffer, int width) {
   int width_count = 0;
   int flag_minus = 0;
   int counter = 0;
-  if (buffer[0] == ' ') {
-    while (*buffer == ' ') {
-      counter++;
-      buffer++;
-    }
-  }
   if (width == 0) width = 1024;
   while (((*buffer >= '0' && *buffer <= '9') || *buffer == '-' ||
           (*buffer >= 'a' && *buffer <= 'f') ||
@@ -134,12 +112,6 @@ int read_8(char *str, char *buffer, int width) {
   int width_count = 0;
   int flag_minus = 0;
   int counter = 0;
-  if (buffer[0] == ' ') {
-    while (*buffer == ' ') {
-      counter++;
-      buffer++;
-    }
-  }
   if (width == 0) width = 1024;
   while (((*buffer >= '0' && *buffer <= '7') || *buffer == '-' ||
           *buffer == 'x') &&
@@ -158,12 +130,6 @@ int read_u(char *str, char *buffer, int width) {
   int flag_minus = 0;
   if (width == 0) width = 1024;
   int counter = 0;
-  if (buffer[0] == ' ') {
-    while (*buffer == ' ') {
-      counter++;
-      buffer++;
-    }
-  }
   while (((*buffer >= '0' && *buffer <= '9') || *buffer == '-') &&
          (width_count < width) && !flag_minus) {
     *(str++) = *(buffer++);
