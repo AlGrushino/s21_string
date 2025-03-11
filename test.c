@@ -711,6 +711,48 @@ START_TEST(s21_sscanf_d7) {
 }
 END_TEST
 
+START_TEST(s21_sprintf_d11) {
+  int res_d, s21_res_d, num, s21_num; 
+  short int res_hd, s21_res_hd;
+  signed char res_hhd, s21_res_hhd;
+  long int res_ld, s21_res_ld;
+  long long int res_lld, s21_res_lld;
+
+  char *string = "test: 21 21 21 123456789L 1234567890123456789LL";
+  char *format = "test: %d %hd %hhd %ld %lld %n";
+
+  s21_sscanf(string, format, &s21_res_d, &s21_res_hd, &s21_res_hhd, &s21_res_ld, &s21_res_lld, &s21_num);
+  sscanf(string, format, &res_d, &res_hd, &res_hhd, &res_ld, &res_lld, &num);
+
+  ck_assert_int_eq(s21_res_d, res_d);
+  ck_assert_int_eq(s21_res_hd, res_hd);
+  ck_assert_int_eq(s21_res_hhd, res_hhd);
+  ck_assert_int_eq(s21_res_ld, res_ld);
+  ck_assert_int_eq(s21_res_lld, res_lld);
+  ck_assert_int_eq(s21_num, num);
+}
+
+START_TEST(s21_sprintf_d12) {
+  int res_d, s21_res_d, num, s21_num; 
+  short int res_hd, s21_res_hd;
+  signed char res_hhd, s21_res_hhd;
+  long int res_ld, s21_res_ld;
+  long long int res_lld, s21_res_lld;
+
+  char *string = "test: -21 -21 -21 -123456789L -1234567890123456789LL";
+  char *format = "test: %d %hd %hhd %ld %lld %n";
+
+  s21_sscanf(string, format, &s21_res_d, &s21_res_hd, &s21_res_hhd, &s21_res_ld, &s21_res_lld, &s21_num);
+  sscanf(string, format, &res_d, &res_hd, &res_hhd, &res_ld, &res_lld, &num);
+
+  ck_assert_int_eq(s21_res_d, res_d);
+  ck_assert_int_eq(s21_res_hd, res_hd);
+  ck_assert_int_eq(s21_res_hhd, res_hhd);
+  ck_assert_int_eq(s21_res_ld, res_ld);
+  ck_assert_int_eq(s21_res_lld, res_lld);
+  ck_assert_int_eq(s21_num, num);
+}
+
 START_TEST(s21_sscanf_i1) {
   int s21_res_1, s21_res_2, res_1, res_2;
   char *s21_arr = "-21 42";
@@ -816,6 +858,39 @@ START_TEST(s21_sscanf_o1) {
 }
 END_TEST
 
+START_TEST(s21_sscanf_o2) {
+  int s21_res, res;
+  char *s21_arr = "015";
+
+  s21_sscanf(s21_arr, "%o", &s21_res);
+  sscanf(s21_arr, "%o", &res);
+
+  ck_assert_int_eq(s21_res, res);
+}
+END_TEST
+
+START_TEST(s21_sscanf_o3) {
+  int s21_res, res;
+  char *s21_arr = "-015";
+
+  s21_sscanf(s21_arr, "%o", &s21_res);
+  sscanf(s21_arr, "%o", &res);
+
+  ck_assert_int_eq(s21_res, res);
+}
+END_TEST
+
+START_TEST(s21_sscanf_o4) {
+  int s21_res, res;
+  char *s21_arr = "0-15";
+
+  s21_sscanf(s21_arr, "%o", &s21_res);
+  sscanf(s21_arr, "%o", &res);
+
+  ck_assert_int_eq(s21_res, res);
+}
+END_TEST
+
 START_TEST(s21_sscanf_x1) {
   int s21_res_1, s21_res_2, res_1, res_2;
   char *arr = "0 255";
@@ -837,6 +912,17 @@ START_TEST(s21_sscanf_x2) {
 
   ck_assert_int_eq(s21_res_1, res_1);
   ck_assert_int_eq(s21_res_2, res_2);
+}
+END_TEST
+
+START_TEST(s21_sscanf_x3) {
+  int s21_res, res;
+  char *arr = "0X15";
+
+  s21_sscanf(arr, "%x", &s21_res);
+  sscanf(arr, "%x", &res);
+
+  ck_assert_int_eq(s21_res, res);
 }
 END_TEST
 
@@ -1287,6 +1373,8 @@ int main(void) {
   tcase_add_test(tc1_1, s21_sprintf_d3);
   tcase_add_test(tc1_1, s21_sprintf_d4);
   tcase_add_test(tc1_1, s21_sprintf_d5);
+  tcase_add_test(tc1_1, s21_sprintf_d11);
+  tcase_add_test(tc1_1, s21_sprintf_d12);
   tcase_add_test(tc1_1, s21_sprintf_f1);
   tcase_add_test(tc1_1, s21_sprintf_f2);
   tcase_add_test(tc1_1, s21_sprintf_f3);
@@ -1347,10 +1435,14 @@ int main(void) {
   tcase_add_test(tc1_1, s21_sscanf_u2);
   tcase_add_test(tc1_1, s21_sscanf_u3);
   tcase_add_test(tc1_1, s21_sscanf_o1);
+  tcase_add_test(tc1_1, s21_sscanf_o2);
+  tcase_add_test(tc1_1, s21_sscanf_o3);
+  tcase_add_test(tc1_1, s21_sscanf_o4);
   tcase_add_test(tc1_1, s21_sscanf_x1);
+  tcase_add_test(tc1_1, s21_sscanf_x2);
+  tcase_add_test(tc1_1, s21_sscanf_x3);
   tcase_add_test(tc1_1, s21_sscanf_c1);
   tcase_add_test(tc1_1, s21_sscanf_s1);
-  tcase_add_test(tc1_1, s21_sscanf_x2);
   tcase_add_test(tc1_1, s21_sscanf_n1);
   tcase_add_test(tc1_1, s21_sscanf_n2);
   tcase_add_test(tc1_1, s21_sscanf_n3);
@@ -1386,7 +1478,7 @@ int main(void) {
   tcase_add_test(tc1_1, s21_sscanf_l1);
   tcase_add_test(tc1_1, s21_sscanf_l2);
 
-  // tcase_add_test(tc1_1, s21_sscanf_star1);
+  // sprintf-like
 
   srunner_set_fork_status(sr, CK_NOFORK);
   srunner_run_all(sr, CK_ENV);
