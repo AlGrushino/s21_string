@@ -1444,6 +1444,28 @@ START_TEST(s21_sscanf_s2) {
 }
 END_TEST
 
+// Alyona
+
+START_TEST(s21_sscanf_alyona1) {
+  char *string = "0 0 0 0 0 0";
+  char *format = "%g %G %e %E %f %%%*g";
+
+  float res_g, s21_res_g, res_big_g, s21_res_big_g, res_e, s21_res_e, res_big_e, s21_res_big_e, res_f, s21_res_f, res_star_g, s21_res_star_g;
+
+
+  s21_sscanf(string, format, &s21_res_g, &s21_res_big_g, &s21_res_e, &s21_res_big_e, &s21_res_f, &s21_res_star_g);
+  sscanf(string, format, &res_g, &res_big_g, &res_e, &res_big_e, &res_f, &res_star_g);
+
+  ck_assert_float_eq(res_g, s21_res_g);
+  ck_assert_float_eq(res_big_g, s21_res_big_g);
+  ck_assert_float_eq(res_e, s21_res_e);
+  ck_assert_float_eq(res_big_e, s21_res_big_e);
+  ck_assert_float_eq(res_f, s21_res_f);
+  ck_assert_float_eq(res_star_g, s21_res_star_g);
+}
+END_TEST
+
+
 int main(void) {
   Suite *s1 = suite_create("Core");
   TCase *tc1_1 = tcase_create("Core");
@@ -1589,7 +1611,9 @@ int main(void) {
   tcase_add_test(tc1_1, s21_sscanf_l1);
   tcase_add_test(tc1_1, s21_sscanf_l2);
 
-  // sprintf-like
+  // Alyona
+  tcase_add_test(tc1_1, s21_sscanf_alyona1);
+  
 
   srunner_set_fork_status(sr, CK_NOFORK);
   srunner_run_all(sr, CK_ENV);
