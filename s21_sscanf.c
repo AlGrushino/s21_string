@@ -4,8 +4,7 @@ int read_d(char *str, char *buffer, int width) {
   int width_count = 0;
   int flag_minus = 0;
   int counter = 0;
-  if (width == 0)
-    width = 1024;
+  if (width == 0) width = 1024;
   if (buffer[0] == ' ') {
     while (*buffer == ' ') {
       counter++;
@@ -21,8 +20,7 @@ int read_d(char *str, char *buffer, int width) {
     *(str++) = *(buffer++);
     width_count++;
     counter++;
-    if (*buffer == '-')
-      flag_minus++;
+    if (*buffer == '-') flag_minus++;
   }
   return counter;
 }
@@ -56,15 +54,12 @@ int read_f(char *str, char *buffer, int width) {
     buffer++;
     width_count++;
   }
-  if (width == 0)
-    width = 1024;
+  if (width == 0) width = 1024;
   while (((*buffer >= '0' && *buffer <= '9') || *buffer == '.' ||
           *buffer == '-') &&
          (flag_point) < 2 && (width_count < width) && flag_minus == 0) {
-    if (*buffer == '.')
-      (flag_point)++;
-    if (*buffer == '0')
-      flag_minus++;
+    if (*buffer == '.') (flag_point)++;
+    if (*buffer == '0') flag_minus++;
     *(str++) = *(buffer++);
     width_count++;
     counter++;
@@ -75,8 +70,7 @@ int read_f(char *str, char *buffer, int width) {
 int read_s(char *str, char *buffer, int width) {
   int width_count = 0;
   int counter = 0;
-  if (width == 0)
-    width = 1024;
+  if (width == 0) width = 1024;
   while (*buffer != ' ' && (width_count < width)) {
     *(str++) = *(buffer++);
     width_count++;
@@ -96,16 +90,13 @@ int read_e(char *str, char *buffer, int width) {
       buffer++;
     }
   }
-  if (width == 0)
-    width = 1024;
+  if (width == 0) width = 1024;
   while (((*buffer >= '0' && *buffer <= '9') || *buffer == '.' ||
           *buffer == 'E' || *buffer == 'e' || *buffer == '+' ||
           *buffer == '-') &&
          (flag_point) < 2 && (width_count < width)) {
-    if (*buffer == '.')
-      flag_point++;
-    if (*buffer == 'E' || *buffer == 'e')
-      flag_e++;
+    if (*buffer == '.') flag_point++;
+    if (*buffer == 'E' || *buffer == 'e') flag_e++;
     width_count++;
     counter++;
     if (flag_e > 1)
@@ -126,8 +117,7 @@ int read_x(char *str, char *buffer, int width) {
       buffer++;
     }
   }
-  if (width == 0)
-    width = 1024;
+  if (width == 0) width = 1024;
   while (((*buffer >= '0' && *buffer <= '9') || *buffer == '-' ||
           (*buffer >= 'a' && *buffer <= 'f') ||
           (*buffer >= 'A' && *buffer <= 'F') || *buffer == 'x') &&
@@ -135,8 +125,7 @@ int read_x(char *str, char *buffer, int width) {
     *(str++) = *(buffer++);
     width_count++;
     counter++;
-    if (*buffer == '-')
-      flag_minus++;
+    if (*buffer == '-') flag_minus++;
   }
   return counter;
 }
@@ -151,16 +140,14 @@ int read_8(char *str, char *buffer, int width) {
       buffer++;
     }
   }
-  if (width == 0)
-    width = 1024;
+  if (width == 0) width = 1024;
   while (((*buffer >= '0' && *buffer <= '7') || *buffer == '-' ||
           *buffer == 'x') &&
          (width_count < width) && !flag_minus) {
     *(str++) = *(buffer++);
     width_count++;
     counter++;
-    if (*buffer == '-')
-      flag_minus++;
+    if (*buffer == '-') flag_minus++;
   }
 
   return counter;
@@ -169,8 +156,7 @@ int read_8(char *str, char *buffer, int width) {
 int read_u(char *str, char *buffer, int width) {
   int width_count = 0;
   int flag_minus = 0;
-  if (width == 0)
-    width = 1024;
+  if (width == 0) width = 1024;
   int counter = 0;
   if (buffer[0] == ' ') {
     while (*buffer == ' ') {
@@ -183,8 +169,7 @@ int read_u(char *str, char *buffer, int width) {
     *(str++) = *(buffer++);
     width_count++;
     counter++;
-    if (*buffer == '-')
-      flag_minus++;
+    if (*buffer == '-') flag_minus++;
   }
   return counter;
 }
@@ -195,8 +180,7 @@ long s21_atoi(char *arr) {
   int mult = 1;
   int len = s21_strlen(arr);
   len = my_abs((long double)len);
-  if (arr[0] == '-')
-    flag_minus = 1;
+  if (arr[0] == '-') flag_minus = 1;
   while (len--) {
     if (arr[len] != '-') {
       num += (arr[len] - '0') * mult;
@@ -221,8 +205,7 @@ long double s21_atof(char *arr) {
     i++;
   }
   for (; arr[i] != '\0'; i++) {
-    if (arr[i] == '.')
-      point = i;
+    if (arr[i] == '.') point = i;
     if (i < point && arr[i] != '-') {
       res *= 10;
       res += (arr[i] - '0');
@@ -247,8 +230,7 @@ long double s21_atoe(char *arr) {
     i++;
   }
   for (; arr[i] != '\0' && arr[i] != 'e' && arr[i] != 'E'; i++) {
-    if (arr[i] == '.')
-      point = i;
+    if (arr[i] == '.') point = i;
     if (i < point && arr[i] != '-') {
       res *= 10;
       res = (arr[i] - '0');
@@ -274,11 +256,9 @@ long int s21_itoa(char *arr) {
   int mult = 1;
   int len = s21_strlen(arr);
   len = my_abs((long double)len);
-  if (arr[0] == '-')
-    flag_minus = 1;
+  if (arr[0] == '-') flag_minus = 1;
   while (len--) {
-    if (arr[len] >= 'a' && arr[len] <= 'z')
-      arr[len] ^= 0x20;
+    if (arr[len] >= 'a' && arr[len] <= 'z') arr[len] ^= 0x20;
     if (len == 0 && arr[len] == 0 && arr[len + 1] == 'X')
       ;
     else if ((arr[len] >= '0' && arr[len] <= '9') && arr[len] != '-') {
@@ -304,8 +284,7 @@ long int s21_atoi8(char *arr) {
   int mult = 1;
   int len = s21_strlen(arr);
   len = my_abs((long double)len);
-  if (arr[0] == '-')
-    flag_minus = 1;
+  if (arr[0] == '-') flag_minus = 1;
   while (len--) {
     if (arr[len] != '-') {
       num += (arr[len] - '0') * mult;
@@ -327,11 +306,9 @@ unsigned long int s21_itoa_unsigned(char *arr) {
   int mult = 1;
   int len = s21_strlen(arr);
   len = my_abs((long double)len);
-  if (arr[0] == '-')
-    flag_minus = 1;
+  if (arr[0] == '-') flag_minus = 1;
   while (len--) {
-    if (arr[len] >= 'a' && arr[len] <= 'f')
-      arr[len] ^= 0x20;
+    if (arr[len] >= 'a' && arr[len] <= 'f') arr[len] ^= 0x20;
     if ((arr[len] >= '0' && arr[len] <= '9') && arr[len] != '-') {
       num += (arr[len] - '0') * mult;
       mult *= 16;
@@ -355,8 +332,7 @@ unsigned long int s21_atoi_unsigned(char *arr) {
   int mult = 1;
   int len = s21_strlen(arr);
   len = my_abs((long double)len);
-  if (arr[0] == '-')
-    flag_minus = 1;
+  if (arr[0] == '-') flag_minus = 1;
   while (len--) {
     if (arr[len] != '-') {
       num += (arr[len] - '0') * mult;
@@ -379,8 +355,7 @@ unsigned long int s21_atou(char *arr) {
   int mult = 1;
   int len = s21_strlen(arr);
   len = my_abs((long double)len);
-  if (arr[0] == '-')
-    flag_minus = 1;
+  if (arr[0] == '-') flag_minus = 1;
   while (len--) {
     if (arr[len] != '-') {
       num += (arr[len] - '0') * mult;
@@ -407,21 +382,21 @@ void read_percentage(after_percentage *structure, char *start) {
   structure->width = s21_atoi(width_str);
   start += count_symbols;
   switch (*start) {
-  case 'l': {
-    structure->l = 1;
-    break;
-  }
-  case 'L': {
-    structure->L = 1;
-    break;
-  }
-  case 'h': {
-    structure->h = 1;
-    break;
-  }
-  default: {
-    break;
-  }
+    case 'l': {
+      structure->l = 1;
+      break;
+    }
+    case 'L': {
+      structure->L = 1;
+      break;
+    }
+    case 'h': {
+      structure->h = 1;
+      break;
+    }
+    default: {
+      break;
+    }
   }
 }
 
@@ -445,8 +420,7 @@ int case_d(int *count_success, int temp_width, char *buffer, va_list args,
     } else {
       int *p = va_arg(args, int *);
       *p = s21_atoi(str);
-      if (percent.h)
-        *p = (short)*p;
+      if (percent.h) *p = (short)*p;
     }
     (*count_success)++;
   }
@@ -553,8 +527,7 @@ int case_x(int *count_success, int temp_width, char *buffer, va_list args,
     } else {
       unsigned int *p = va_arg(args, unsigned int *);
       *p = s21_itoa_unsigned(str);
-      if (percent.h)
-        *p = (unsigned short)*p;
+      if (percent.h) *p = (unsigned short)*p;
     }
     (*count_success)++;
   }
@@ -587,8 +560,7 @@ int case_i(int *count_success, int temp_width, char *buffer, va_list args,
         *p = s21_atoi8(str);
       } else
         *p = s21_atoi(str);
-      if (percent.h)
-        *p = (short)*p;
+      if (percent.h) *p = (short)*p;
     }
     (*count_success)++;
   }
@@ -620,8 +592,7 @@ int case_o(int *count_success, int temp_width, char *buffer, va_list args,
     } else {
       unsigned int *p = va_arg(args, unsigned int *);
       *p = s21_atoi_unsigned(str);
-      if (percent.h)
-        *p = (unsigned short)*p;
+      if (percent.h) *p = (unsigned short)*p;
     }
     (*count_success)++;
   }
@@ -640,18 +611,17 @@ int case_u(int *count_success, int temp_width, char *buffer, va_list args,
     } else {
       unsigned int *p = va_arg(args, unsigned int *);
       *p = s21_atou(str);
-      if (percent.h)
-        *p = (unsigned short)*p;
+      if (percent.h) *p = (unsigned short)*p;
     }
     count_success++;
   }
   return temp_counter;
 }
 
-int turn_into_counter(int *count_success, int temp_width, char *buffer, va_list args,
-           after_percentage percent, int temp_counter, char find, int *counter){
-
-    switch (find) {
+int turn_into_counter(int *count_success, int temp_width, char *buffer,
+                      va_list args, after_percentage percent, int temp_counter,
+                      char find, int *counter) {
+  switch (find) {
     case 'd':
       temp_counter = case_d(count_success, temp_width, buffer, args, percent);
       break;
@@ -698,7 +668,7 @@ int turn_into_counter(int *count_success, int temp_width, char *buffer, va_list 
       break;
     default:
       break;
-    }
+  }
   return temp_counter;
 }
 
@@ -711,17 +681,22 @@ int s21_sscanf(char *buffer, char *format, ...) {
   int count_success = 0;
   int flag_last_percent = 0;
   while (find != S21_NULL && !flag_last_percent) {
-    if (s21_strlen(find) != 1) find++;
-    else flag_last_percent = 1;
+    if (s21_strlen(find) != 1)
+      find++;
+    else
+      flag_last_percent = 1;
     after_percentage percent = {0};
     read_percentage(&percent, find);
     temp_width = percent.width;
-    if (s21_strpbrk(find, specifications) != S21_NULL) find = s21_strpbrk(find, specifications);
-    else flag_last_percent = 1;
+    if (s21_strpbrk(find, specifications) != S21_NULL)
+      find = s21_strpbrk(find, specifications);
+    else
+      flag_last_percent = 1;
     if (*find != 'c') skip_whitespace(&buffer, &counter);
     if (s21_strlen(buffer) == 0) count_success = -1;
     int temp_counter = 0;
-    temp_counter = turn_into_counter(&count_success, temp_width, buffer, args, percent, temp_counter, *find, &counter);
+    temp_counter = turn_into_counter(&count_success, temp_width, buffer, args,
+                                     percent, temp_counter, *find, &counter);
     buffer = buffer + temp_counter;
     counter += temp_counter;
     format = find;
