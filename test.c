@@ -1465,6 +1465,59 @@ START_TEST(s21_sscanf_alyona1) {
 }
 END_TEST
 
+START_TEST(s21_sscanf_alyona_i_1) {
+  int res_1, res_2, s21_res_1, s21_res_2;
+
+  char *string = "0x7ffc12345678 0x7ffc12345678";
+  char *format = "%*i %i";
+
+  s21_sscanf(string, format, &s21_res_1, &s21_res_2);
+  sscanf(string, format, &res_1, &res_2);
+
+  ck_assert_int_eq(res_1, s21_res_1);
+  ck_assert_int_eq(res_2, s21_res_2);
+}
+END_TEST
+
+START_TEST(s21_sscanf_alyona_i_2) {
+  int res_1, res_2, s21_res_1, s21_res_2;
+
+  char *string = "0x7ffc12345678 07ffc12345678";
+  char *format = "%*i %i";
+
+  s21_sscanf(string, format, &s21_res_1, &s21_res_2);
+  sscanf(string, format, &res_1, &res_2);
+
+  ck_assert_int_eq(res_1, s21_res_1);
+  ck_assert_int_eq(res_2, s21_res_2);
+}
+END_TEST
+
+START_TEST(s21_sscanf_alyona_i_3) {
+  int res_1, s21_res_1;
+
+  char *string = "0x7ffc12345678 07ffc12345678";
+  char *format = "%*i %";
+
+  s21_sscanf(string, format, &s21_res_1);
+  sscanf(string, format, &res_1);
+
+  ck_assert_int_eq(res_1, s21_res_1);
+}
+END_TEST
+
+START_TEST(s21_sscanf_alyona_i_4) {
+  int res_1, s21_res_1;
+
+  char *string = "0x7ffc12345678 07ffc12345678";
+  char *format = "% %%  ";
+
+  s21_sscanf(string, format, &s21_res_1);
+  sscanf(string, format, &res_1);
+
+  ck_assert_int_eq(res_1, s21_res_1);
+}
+END_TEST
 
 int main(void) {
   Suite *s1 = suite_create("Core");
@@ -1613,7 +1666,10 @@ int main(void) {
 
   // Alyona
   tcase_add_test(tc1_1, s21_sscanf_alyona1);
-  
+  tcase_add_test(tc1_1, s21_sscanf_alyona_i_1);
+  tcase_add_test(tc1_1, s21_sscanf_alyona_i_2);
+  tcase_add_test(tc1_1, s21_sscanf_alyona_i_3);
+  tcase_add_test(tc1_1, s21_sscanf_alyona_i_4);
 
   srunner_set_fork_status(sr, CK_NOFORK);
   srunner_run_all(sr, CK_ENV);
