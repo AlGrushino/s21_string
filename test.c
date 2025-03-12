@@ -1589,6 +1589,110 @@ START_TEST(s21_sscanf_alyona_minuses_2) {
 }
 END_TEST
 
+START_TEST(s21_sscanf_alyona_minuses_long_double) {
+  unsigned long int s21_uli_u, std_uli_u, s21_uli_x, std_uli_x, s21_uli_X, std_uli_X,
+   s21_uli_o, std_uli_o;
+  long int s21_li_d, std_li_d, s21_li_i, std_li_i;
+  long double s21_mg, std_mg, s21_me, std_me;
+
+  char * string = "-1 -1 -1 -1 -1 -1 -1 -1";
+  char *format = "%ld %lo %lx %lX %lu %li %Le %g";
+
+  s21_sscanf(string, format, &s21_li_d, &s21_uli_o,
+    &s21_uli_x, &s21_uli_X, &s21_uli_u, &s21_li_i, &s21_me, &s21_mg);
+  sscanf(string, format, &std_li_d, &std_uli_o,
+    &std_uli_x, &std_uli_X, &std_uli_u, &std_li_i, &std_me, &std_mg);
+
+    ck_assert_int_eq(s21_uli_u, std_uli_u);
+    ck_assert_int_eq(s21_uli_x, std_uli_x);
+    ck_assert_int_eq(s21_uli_X, std_uli_X);
+    ck_assert_int_eq(s21_uli_o, std_uli_o);
+    ck_assert_int_eq(s21_li_d, std_li_d);
+    ck_assert_int_eq(s21_li_i, std_li_i);
+
+    ck_assert_double_eq(s21_mg, std_mg);
+    ck_assert_double_eq(s21_me, std_me);
+}
+END_TEST
+
+START_TEST(s21_sscanf_alyona_minuses_3) {
+  unsigned long int s21_uli_u, std_uli_u, s21_uli_x, std_uli_x, s21_uli_X, std_uli_X,
+   s21_uli_o, std_uli_o;
+  long int s21_li_d, std_li_d, s21_li_i, std_li_i;
+  double s21_mg, std_mg, s21_me, std_me;
+
+  char * string = "-1 -1 -1 -1 -1 -0x1 -1 -1";
+  char *format = "%ld %lo %lx %lX %lu %li %e %g";
+
+  s21_sscanf(string, format, &s21_li_d, &s21_uli_o,
+    &s21_uli_x, &s21_uli_X, &s21_uli_u, &s21_li_i, &s21_me, &s21_mg);
+  sscanf(string, format, &std_li_d, &std_uli_o,
+    &std_uli_x, &std_uli_X, &std_uli_u, &std_li_i, &std_me, &std_mg);
+
+    ck_assert_int_eq(s21_uli_u, std_uli_u);
+    ck_assert_int_eq(s21_uli_x, std_uli_x);
+    ck_assert_int_eq(s21_uli_X, std_uli_X);
+    ck_assert_int_eq(s21_uli_o, std_uli_o);
+    ck_assert_int_eq(s21_li_d, std_li_d);
+    ck_assert_int_eq(s21_li_i, std_li_i);
+
+    ck_assert_double_eq(s21_mg, std_mg);
+    ck_assert_double_eq(s21_me, std_me);
+}
+END_TEST
+
+START_TEST(s21_sscanf_alyona_minuses_2_zero) {
+  unsigned long int s21_uli_u = 0, std_uli_u = 0, s21_uli_x = 0, std_uli_x = 0, s21_uli_X = 0, std_uli_X = 0,
+   s21_uli_o = 0, std_uli_o = 0;
+  long int s21_li_d = 0, std_li_d = 0, s21_li_i = 0, std_li_i = 0;
+  double s21_mg = 0, std_mg = 0, s21_me = 0, std_me = 0;
+
+  char * string = "-1 -1 -1 -1 -1 -1 -1 -1";
+  char *format = "%ld %lo %lx %lX %lu %li %e %g";
+
+  s21_sscanf(string, format, &s21_li_d, &s21_uli_o,
+    &s21_uli_x, &s21_uli_X, &s21_uli_u, &s21_li_i, &s21_me, &s21_mg);
+  sscanf(string, format, &std_li_d, &std_uli_o,
+    &std_uli_x, &std_uli_X, &std_uli_u, &std_li_i, &std_me, &std_mg);
+
+    ck_assert_int_eq(s21_uli_u, std_uli_u);
+    ck_assert_int_eq(s21_uli_x, std_uli_x);
+    ck_assert_int_eq(s21_uli_X, std_uli_X);
+    ck_assert_int_eq(s21_uli_o, std_uli_o);
+    ck_assert_int_eq(s21_li_d, std_li_d);
+    ck_assert_int_eq(s21_li_i, std_li_i);
+
+    ck_assert_double_eq(s21_mg, std_mg);
+    ck_assert_double_eq(s21_me, std_me);
+}
+END_TEST
+
+START_TEST(s21_sscanf_alyona_non_minuses_1) {
+  unsigned long int s21_uli_u, std_uli_u, s21_uli_x, std_uli_x, s21_uli_X, std_uli_X,
+   s21_uli_o, std_uli_o;
+  long int s21_li_d, std_li_d, s21_li_i, std_li_i;
+  double s21_mg, std_mg, s21_me, std_me;
+
+  char * string = "1 1 1 1 1 1 1 1";
+  char *format = "%ld %lo %lx %lX %lu %li %e %g";
+
+  s21_sscanf(string, format, &s21_li_d, &s21_uli_o,
+    &s21_uli_x, &s21_uli_X, &s21_uli_u, &s21_li_i, &s21_me, &s21_mg);
+  sscanf(string, format, &std_li_d, &std_uli_o,
+    &std_uli_x, &std_uli_X, &std_uli_u, &std_li_i, &std_me, &std_mg);
+
+    ck_assert_int_eq(s21_uli_u, std_uli_u);
+    ck_assert_int_eq(s21_uli_x, std_uli_x);
+    ck_assert_int_eq(s21_uli_X, std_uli_X);
+    ck_assert_int_eq(s21_uli_o, std_uli_o);
+    ck_assert_int_eq(s21_li_d, std_li_d);
+    ck_assert_int_eq(s21_li_i, std_li_i);
+
+    ck_assert_double_eq(s21_mg, std_mg);
+    ck_assert_double_eq(s21_me, std_me);
+}
+END_TEST
+
 int main(void) {
   Suite *s1 = suite_create("Core");
   TCase *tc1_1 = tcase_create("Core");
@@ -1744,6 +1848,10 @@ int main(void) {
   tcase_add_test(tc1_1, s21_sscanf_alyona_d_1);
   tcase_add_test(tc1_1, s21_sscanf_alyona_minuses_1);
   tcase_add_test(tc1_1, s21_sscanf_alyona_minuses_2);
+  tcase_add_test(tc1_1, s21_sscanf_alyona_minuses_3);
+  tcase_add_test(tc1_1, s21_sscanf_alyona_minuses_2_zero);
+  tcase_add_test(tc1_1, s21_sscanf_alyona_non_minuses_1);
+  tcase_add_test(tc1_1, s21_sscanf_alyona_minuses_long_double);
 
   srunner_set_fork_status(sr, CK_NOFORK);
   srunner_run_all(sr, CK_ENV);
