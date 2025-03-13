@@ -539,7 +539,7 @@ int case_p(int *count_success, int temp_width, char *buffer, va_list args,
   int temp_counter;
   temp_counter = read_x(str, buffer, temp_width);
   if (!percent.star) {
-    int *p = va_arg(args, void *);
+    intptr_t *p = va_arg(args, intptr_t);
     *p = s21_itoa(str);
     (*count_success)++;
   }
@@ -579,7 +579,7 @@ int case_u(int *count_success, int temp_width, char *buffer, va_list args,
       *p = s21_atou(str);
       if (percent.h) *p = (unsigned short)*p;
     }
-    count_success++;
+    (*count_success)++;
   }
   return temp_counter;
 }
