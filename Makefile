@@ -2,6 +2,17 @@ CC= gcc
 CFLAGS = -Wall -Wextra -pedantic -std=c11
 CCOV= -fprofile-arcs -ftest-coverage
 
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Linux)
+    CLIBS=-lcheck -lm -lsubunit
+endif
+
+ifeq ($(UNAME_S),Darwin)
+    CLIBS=-lcheck -lm
+endif
+
+
+
 all: s21_string.a
 
 clean:
@@ -23,7 +34,9 @@ run_test:
 	@make test
 
 test: s21_string.a
-	@$(CC) $(CCOV) test.c c_sharp.c s21_string.c s21_sscanf.c minifunc.c -lcheck -lm -lsubunit -o test
+	@$(CC) $(CCOV) test.c c_sharp.c s21_string.c s21_sscanf.c minifunc.c $(CLIBS) -o test
+
+	# @$(CC) $(CCOV) test.c c_sharp.c s21_string.c s21_sscanf.c minifunc.c -lcheck -lm -lsubunit -o test
 	@./test
 
 gcov_report: test
