@@ -1,5 +1,7 @@
 CC= gcc 
-CFLAGS = -Wall -Wextra -pedantic -std=c11
+CFLAGS = -Wall -Wextra -pedantic -std=c11 -fsanitize=address
+# CFLAGS = -Wall -Wextra -pedantic -std=c11
+
 CCOV= -fprofile-arcs -ftest-coverage
 
 UNAME_S := $(shell uname -s)
@@ -34,7 +36,7 @@ run_test:
 	@make test
 
 test: s21_string.a
-	@$(CC) $(CCOV) test.c c_sharp.c s21_string.c s21_sscanf.c minifunc.c $(CLIBS) -o test
+	@$(CC) $(CFLAGS) $(CCOV) test.c c_sharp.c s21_string.c s21_sscanf.c minifunc.c $(CLIBS) -o test
 
 	# @$(CC) $(CCOV) test.c c_sharp.c s21_string.c s21_sscanf.c minifunc.c -lcheck -lm -lsubunit -o test
 	@./test

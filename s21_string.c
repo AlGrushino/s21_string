@@ -414,6 +414,7 @@ int s21_sprintf(char *str, const char *format, ...) {
   s21_size_t remained = s21_strlen(format);
   s21_strncpy(str, format, remained);
   str += remained;
+  va_end(args);
   return str - start;
 }
 

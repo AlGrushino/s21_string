@@ -2,9 +2,8 @@
 #define S21_STRING_H
 
 #include <stdarg.h>
-#include <stdio.h>
 #include <stdlib.h>
-#include <stdint.h>  // ??
+#include <stdint.h>
 
 #include "math.h"
 
@@ -197,13 +196,11 @@ int read_specificator(char *str, const char *format, int len, char specificator,
                       va_list args, int current_len);
 double my_abs(long double a);
 
-// C#
 void *s21_to_upper(const char *str);
 void *s21_to_lower(const char *str);
 void *s21_insert(const char *src, const char *str, s21_size_t start_index);
 void *s21_trim(const char *src, const char *trim_chars);
 
-// read_specificator decomposition
 int char_handler(char *spec_str, specification_read *spec_read, va_list args);
 int decimal_handler(char *spec_str, specification_read *spec_read,
                     va_list args);
@@ -225,7 +222,6 @@ int digit_specificator(char *str, specification_read spec_read,
                        long double num);
 char* fmt_string(char *ptr, specification_read spec_read, int num_len, char space, const char* num_str);
 
-// sscanf
 int read_d(char *str, char *buffer, int width);
 int read_c(char *str, char *buffer, int width);
 int read_f(char *str, char *buffer, int width);

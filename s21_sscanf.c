@@ -539,7 +539,7 @@ int case_p(int *count_success, int temp_width, char *buffer, va_list args,
   int temp_counter;
   temp_counter = read_x(str, buffer, temp_width);
   if (!percent.star) {
-    intptr_t *p = va_arg(args, intptr_t);
+    intptr_t *p = (intptr_t *)va_arg(args, intptr_t);
     *p = s21_itoa(str);
     (*count_success)++;
   }
@@ -668,5 +668,6 @@ int s21_sscanf(char *buffer, char *format, ...) {
     format = find;
     find = s21_strchr(format, '%');
   }
+  va_end(args);
   return count_success;
 }
