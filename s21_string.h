@@ -2,8 +2,8 @@
 #define S21_STRING_H
 
 #include <stdarg.h>
-#include <stdlib.h>
 #include <stdint.h>
+#include <stdlib.h>
 
 #include "math.h"
 
@@ -167,7 +167,7 @@ typedef struct {
 } after_percentage;
 
 int s21_sprintf(char *str, const char *format, ...);
-int s21_sscanf(char * buffer, char * format, ...);
+int s21_sscanf(char *buffer, char *format, ...);
 
 void *s21_memchr(const void *str, int c, s21_size_t n);
 int s21_memcmp(const void *str1, const void *str2, s21_size_t n);
@@ -220,7 +220,8 @@ int percent_handler(char *spec_str);
 
 int digit_specificator(char *str, specification_read spec_read,
                        long double num);
-char* fmt_string(char *ptr, specification_read spec_read, int num_len, char space, const char* num_str);
+char *fmt_string(char *ptr, specification_read spec_read, int num_len,
+                 char space, const char *num_str);
 
 int read_d(char *str, char *buffer, int width);
 int read_c(char *str, char *buffer, int width);

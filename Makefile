@@ -1,6 +1,5 @@
 CC= gcc 
-CFLAGS = -Wall -Wextra -pedantic -std=c11 -fsanitize=address
-# CFLAGS = -Wall -Wextra -pedantic -std=c11
+CFLAGS = -Wall -Werror -Wextra -pedantic -std=c11
 
 CCOV= -fprofile-arcs -ftest-coverage
 

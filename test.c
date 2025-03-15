@@ -28,14 +28,6 @@ START_TEST(s21_strncat_2) {
 }
 END_TEST
 
-// START_TEST(s21_memchr_1) {
-//   char str1[] = "";
-//   int n = 5;
-//   char *s21_res = s21_memchr(str1, ' ', n);
-//   ck_assert_ptr_null(s21_res);
-// }
-// END_TEST
-
 START_TEST(s21_memchr_2) {
   char str1[] = "abc";
   int n = 3;
@@ -49,7 +41,6 @@ START_TEST(s21_memchr_3) {
   char str1[] = "abc";
   int n = 1;
   char *s21_res = s21_memchr(str1, 'c', n);
-  // char *res = memchr(str1, 'c', n);
   ck_assert_ptr_null(s21_res);
 }
 END_TEST
@@ -363,7 +354,7 @@ START_TEST(s21_sprintf_c2) {
 START_TEST(s21_sprintf_n1) {
   char s21_str[1024] = {0};
   char str[1024] = {0};
-  int s21_n, n;
+  long long int s21_n = 0, n = 0;
   const char *format = "test: %n";
   int s21_res = s21_sprintf(s21_str, format, &s21_n);
   int res = sprintf(str, format, &n);
@@ -374,7 +365,6 @@ START_TEST(s21_sprintf_n1) {
 START_TEST(s21_sprintf_percent) {
   char s21_str[1024] = {0};
   char str[1024] = {0};
-  // int a, b, c, d, e;
   const char *format = "test: %%";
   int s21_res = s21_sprintf(s21_str, format, 'a', 'b', 'c', 'd', 'e');
   int res = sprintf(str, format, 'a', 'b', 'c', 'd', 'e');
@@ -401,17 +391,6 @@ START_TEST(s21_memset_2) {
   ck_assert_ptr_eq(s21_res, res);
 }
 END_TEST
-
-// START_TEST(s21_strcspn_1) {
-//   char s21_str1[6] = "abcdef";
-//   char s21_str2[3] = "edc";
-//   char str1[6] = "abcdef";
-//   char str2[3] = "edc";
-//   s21_size_t s21_res = s21_strcspn(s21_str1, s21_str2);
-//   s21_size_t res = strcspn(str1, str2);
-//   ck_assert_int_eq(s21_res, res);
-// }
-// END_TEST
 
 START_TEST(s21_strrchr_1) {
   const char *str = "aabaabaa";
@@ -527,7 +506,6 @@ START_TEST(s21_strtok_n4) {
 }
 END_TEST
 
-
 START_TEST(s21_to_upper_n1) {
   const char *s21_str = "upper";
 
@@ -641,9 +619,9 @@ START_TEST(s21_strerror_n3) {
   char *s21_res = s21_strerror(errno);
   char *res = strerror(errno);
   ck_assert_str_eq(s21_res, res);
+  free(res);
 }
 END_TEST
-
 
 START_TEST(s21_sscanf_d1) {
   int s21_res, res;
@@ -731,7 +709,7 @@ START_TEST(s21_sscanf_d7) {
 END_TEST
 
 START_TEST(s21_sscanf_d11) {
-  int res_d = 0, s21_res_d = 0, num = 0, s21_num = 0; 
+  int res_d = 0, s21_res_d = 0, num = 0, s21_num = 0;
   int res_hd = 0, s21_res_hd = 0, res_hhd = 0, s21_res_hhd = 0;
   int res_ld, s21_res_ld;
   long int res_lld, s21_res_lld;
@@ -739,7 +717,8 @@ START_TEST(s21_sscanf_d11) {
   char *string = "21 21 21 21 0";
   char *format = "%d %d %hd %d %ld %n";
 
-  s21_sscanf(string, format, &s21_res_d, &s21_res_hd, &s21_res_hhd, &s21_res_ld, &s21_res_lld, &s21_num);
+  s21_sscanf(string, format, &s21_res_d, &s21_res_hd, &s21_res_hhd, &s21_res_ld,
+             &s21_res_lld, &s21_num);
   sscanf(string, format, &res_d, &res_hd, &res_hhd, &res_ld, &res_lld, &num);
 
   ck_assert_int_eq(s21_res_d, res_d);
@@ -751,16 +730,17 @@ START_TEST(s21_sscanf_d11) {
 }
 
 START_TEST(s21_sscanf_d12) {
-  int res_d = 0, s21_res_d = 0, num = 0, s21_num = 0; 
+  int res_d = 0, s21_res_d = 0, num = 0, s21_num = 0;
   int res_hd = 0, s21_res_hd = 0;
-  short int  res_hhd = 0, s21_res_hhd = 0;
   long int res_ld = 0, s21_res_ld = 0;
-  long  int res_lld = 0, s21_res_lld = 0;
+  long int res_lld = 0, s21_res_lld = 0;
+  short int res_hhd = 0, s21_res_hhd = 0;
 
   char *string = "-21 -21 -21 -12 -12";
   char *format = "%d %d %hd %ld %ld %n";
 
-  s21_sscanf(string, format, &s21_res_d, &s21_res_hd, &s21_res_hhd, &s21_res_ld, &s21_res_lld, &s21_num);
+  s21_sscanf(string, format, &s21_res_d, &s21_res_hd, &s21_res_hhd, &s21_res_ld,
+             &s21_res_lld, &s21_num);
   sscanf(string, format, &res_d, &res_hd, &res_hhd, &res_ld, &res_lld, &num);
 
   ck_assert_int_eq(s21_res_d, res_d);
@@ -772,7 +752,7 @@ START_TEST(s21_sscanf_d12) {
 }
 
 START_TEST(s21_sscanf_d14) {
-  int res_d = 0, s21_res_d = 0, num = 0, s21_num = 0; 
+  int res_d = 0, s21_res_d = 0, num = 0, s21_num = 0;
   int res_hd = 0, s21_res_hd = 0;
   int res_hhd = 0, s21_res_hhd = 0;
   long int res_ld = 0, s21_res_ld = 0;
@@ -781,7 +761,8 @@ START_TEST(s21_sscanf_d14) {
   char *string = "21 21 21 12345 1234";
   char *format = "%d %hd %hd %ld %ld %n %";
 
-  s21_sscanf(string, format, &s21_res_d, &s21_res_hd, &s21_res_hhd, &s21_res_ld, &s21_res_lld, &s21_num);
+  s21_sscanf(string, format, &s21_res_d, &s21_res_hd, &s21_res_hhd, &s21_res_ld,
+             &s21_res_lld, &s21_num);
   sscanf(string, format, &res_d, &res_hd, &res_hhd, &res_ld, &res_lld, &num);
 
   ck_assert_int_eq(s21_res_d, res_d);
@@ -826,10 +807,11 @@ START_TEST(s21_sscanf_i3) {
   long int res_li, s21_res_li;
   long long int res_lli, s21_res_lli;
 
-  char * string = "1000000 1000000 1000000 1000000 1000000";
-  char * format = "%1i %2hi %3hi %4li %4li %n";
+  char *string = "1000000 1000000 1000000 1000000 1000000";
+  char *format = "%1i %2hi %3hi %4li %4li %n";
 
-  s21_sscanf(string, format, &s21_res_i, &s21_res_hi, &s21_res_hhi, &s21_res_li, &s21_res_lli, &s21_num);
+  s21_sscanf(string, format, &s21_res_i, &s21_res_hi, &s21_res_hhi, &s21_res_li,
+             &s21_res_lli, &s21_num);
   sscanf(string, format, &res_i, &res_hi, &res_hhi, &res_li, &res_lli, &num);
 
   ck_assert_int_eq(res_i, s21_res_i);
@@ -845,12 +827,13 @@ START_TEST(s21_sscanf_i4) {
   unsigned int res_hi = 0, s21_res_hi = 0;
   int res_hhi = 0, s21_res_hhi = 0;
   long int res_li = 0, s21_res_li = 0;
-  long  int res_lli = 0, s21_res_lli = 0;
+  long int res_lli = 0, s21_res_lli = 0;
 
-  char * string = "-100 -1 -1 -1000000 -1000000";
-  char * format = "%i %0i %i %4li %4li %n";
+  char *string = "-100 -1 -1 -1000000 -1000000";
+  char *format = "%i %0i %i %4li %4li %n";
 
-  s21_sscanf(string, format, &s21_res_i, &s21_res_hi, &s21_res_hhi, &s21_res_li, &s21_res_lli, &s21_num);
+  s21_sscanf(string, format, &s21_res_i, &s21_res_hi, &s21_res_hhi, &s21_res_li,
+             &s21_res_lli, &s21_num);
   sscanf(string, format, &res_i, &res_hi, &res_hhi, &res_li, &res_lli, &num);
 
   ck_assert_int_eq(res_i, s21_res_i);
@@ -868,10 +851,11 @@ START_TEST(s21_sscanf_i5) {
   long int res_li, s21_res_li;
   long long int res_lli, s21_res_lli;
 
-  char * string = "1 -1000000 -1 -1 -1000000";
-  char * format = "%i %i %i %li %li %n";
+  char *string = "1 -1000000 -1 -1 -1000000";
+  char *format = "%i %i %i %li %li %n";
 
-  s21_sscanf(string, format, &s21_res_i, &s21_res_hi, &s21_res_hhi, &s21_res_li, &s21_res_lli, &s21_num);
+  s21_sscanf(string, format, &s21_res_i, &s21_res_hi, &s21_res_hhi, &s21_res_li,
+             &s21_res_lli, &s21_num);
   sscanf(string, format, &res_i, &res_hi, &res_hhi, &res_li, &res_lli, &num);
 
   ck_assert_int_eq(res_i, s21_res_i);
@@ -881,7 +865,6 @@ START_TEST(s21_sscanf_i5) {
   ck_assert_int_eq(res_lli, s21_res_lli);
   ck_assert_int_eq(num, s21_num);
 }
-
 
 START_TEST(s21_sscanf_f1) {
   float s21_res_1, s21_res_2, res_1, res_2;
@@ -1060,13 +1043,11 @@ END_TEST
 
 START_TEST(s21_sscanf_n3) {
   int res_n, s21_res_n;
-  // char *arr = " * ";
 
   char string_res[20] = "", s21_string_res[20] = "";
 
   s21_sscanf("1234 03332 ", "%s %n", s21_string_res, &s21_res_n);
   sscanf("1234 03332 ", "%s %n", string_res, &res_n);
-
 
   ck_assert_str_eq(string_res, s21_string_res);
   ck_assert_int_eq(s21_res_n, res_n);
@@ -1075,7 +1056,6 @@ END_TEST
 
 START_TEST(s21_sscanf_n4) {
   int res_n = 0, s21_res_n = 0;
-
 
   char string_res[20] = "", s21_string_res[20] = "";
 
@@ -1101,8 +1081,7 @@ START_TEST(s21_sscanf_n5) {
 END_TEST
 
 START_TEST(s21_sscanf_p2) {
-  void * num = S21_NULL;
-  // int num = 21;
+  void *num = S21_NULL;
   char ptr_arr[21] = "";
   char *res = NULL, *s21_res = NULL;
 
@@ -1190,7 +1169,6 @@ START_TEST(s21_sscanf_e1) {
 }
 END_TEST
 
-
 START_TEST(s21_sscanf_g1) {
   char *notation = "12345.6789";
   long double res = 0, s21_res = 0;
@@ -1236,17 +1214,6 @@ START_TEST(s21_sscanf_g4) {
 }
 END_TEST
 
-// START_TEST(s21_sscanf_g5) {
-//   char *notation = "0";
-//   long double res = 0, s21_res = 0;
-
-//   s21_sscanf(notation, "%Lg", &s21_res);
-//   sscanf(notation, "%Lg", &res);
-
-//   ck_assert_double_eq(s21_res, res);
-// }
-// END_TEST
-
 START_TEST(s21_sscanf_g6) {
   char *notation = "-12345.6789";
   long double res = 0, s21_res = 0;
@@ -1280,7 +1247,6 @@ START_TEST(s21_sscanf_g8) {
 }
 END_TEST
 
-
 START_TEST(s21_sscanf_l1) {
   char *notation = "1234567890 1.234567890";
   long long_res, s21_long_res;
@@ -1310,7 +1276,7 @@ END_TEST
 START_TEST(s21_sscanf_s1) {
   char *string = "school 21";
   char res[1024] = "", s21_res[1024] = "";
- 
+
   s21_sscanf(string, "%s", s21_res);
   sscanf(string, "%s", res);
 
@@ -1329,16 +1295,18 @@ START_TEST(s21_sscanf_s2) {
 }
 END_TEST
 
-
 START_TEST(s21_sscanf_alyona_g_1) {
   char *string = "0 0 0 0 0.0 0";
   char *format = "%g %G %e %E %f %*g";
 
-  float res_g = 0, s21_res_g = 0, res_big_g = 0, s21_res_big_g = 0, res_e = 0, s21_res_e = 0, res_big_e = 0, s21_res_big_e = 0, res_f = 0, s21_res_f = 0, res_star_g = 0, s21_res_star_g = 0;
+  float res_g = 0, s21_res_g = 0, res_big_g = 0, s21_res_big_g = 0, res_e = 0,
+        s21_res_e = 0, res_big_e = 0, s21_res_big_e = 0, res_f = 0,
+        s21_res_f = 0, res_star_g = 0, s21_res_star_g = 0;
 
-
-  s21_sscanf(string, format, &s21_res_g, &s21_res_big_g, &s21_res_e, &s21_res_big_e, &s21_res_f, &s21_res_star_g);
-  sscanf(string, format, &res_g, &res_big_g, &res_e, &res_big_e, &res_f, &res_star_g);
+  s21_sscanf(string, format, &s21_res_g, &s21_res_big_g, &s21_res_e,
+             &s21_res_big_e, &s21_res_f, &s21_res_star_g);
+  sscanf(string, format, &res_g, &res_big_g, &res_e, &res_big_e, &res_f,
+         &res_star_g);
 
   ck_assert_float_eq(res_g, s21_res_g);
   ck_assert_float_eq(res_big_g, s21_res_big_g);
@@ -1405,7 +1373,7 @@ END_TEST
 
 START_TEST(s21_sscanf_alyona_i_5) {
   int res = 0, s21_res = 0;
-  char * string = "0x7ffc12345678 07ffc12345678";
+  char *string = "0x7ffc12345678 07ffc12345678";
   char *format = "%*i %";
   s21_sscanf(string, format, &s21_res);
   sscanf(string, format, &res);
@@ -1416,7 +1384,7 @@ END_TEST
 
 START_TEST(s21_sscanf_alyona_d_1) {
   int res, s21_res;
-  char * string = "5";
+  char *string = "5";
   char *format = "%d % ";
   s21_sscanf(string, format, &s21_res);
   sscanf(string, format, &res);
@@ -1426,154 +1394,154 @@ START_TEST(s21_sscanf_alyona_d_1) {
 END_TEST
 
 START_TEST(s21_sscanf_alyona_minuses_1) {
-  unsigned long int s21_uli_u, std_uli_u, s21_uli_x, std_uli_x, s21_uli_X, std_uli_X,
-   s21_uli_o, std_uli_o;
+  unsigned long int s21_uli_u, std_uli_u, s21_uli_x, std_uli_x, s21_uli_X,
+      std_uli_X, s21_uli_o, std_uli_o;
   long int s21_li_d, std_li_d, s21_li_i, std_li_i;
 
-  char * string = "-1 -1 -1 -1 -1 -1";
+  char *string = "-1 -1 -1 -1 -1 -1";
   char *format = "%ld %lo %lx %lX %lu %li";
 
-  s21_sscanf(string, format, &s21_li_d, &s21_uli_o,
-    &s21_uli_x, &s21_uli_X, &s21_uli_u, &s21_li_i);
-  sscanf(string, format, &std_li_d, &std_uli_o,
-    &std_uli_x, &std_uli_X, &std_uli_u, &std_li_i);
+  s21_sscanf(string, format, &s21_li_d, &s21_uli_o, &s21_uli_x, &s21_uli_X,
+             &s21_uli_u, &s21_li_i);
+  sscanf(string, format, &std_li_d, &std_uli_o, &std_uli_x, &std_uli_X,
+         &std_uli_u, &std_li_i);
 
-    ck_assert_int_eq(s21_uli_u, std_uli_u);
-    ck_assert_int_eq(s21_uli_x, std_uli_x);
-    ck_assert_int_eq(s21_uli_X, std_uli_X);
-    ck_assert_int_eq(s21_uli_o, std_uli_o);
-    ck_assert_int_eq(s21_li_d, std_li_d);
-    ck_assert_int_eq(s21_li_i, std_li_i);
+  ck_assert_int_eq(s21_uli_u, std_uli_u);
+  ck_assert_int_eq(s21_uli_x, std_uli_x);
+  ck_assert_int_eq(s21_uli_X, std_uli_X);
+  ck_assert_int_eq(s21_uli_o, std_uli_o);
+  ck_assert_int_eq(s21_li_d, std_li_d);
+  ck_assert_int_eq(s21_li_i, std_li_i);
 }
 END_TEST
 
 START_TEST(s21_sscanf_alyona_minuses_2) {
-  unsigned long int s21_uli_u, std_uli_u, s21_uli_x, std_uli_x, s21_uli_X, std_uli_X,
-   s21_uli_o, std_uli_o;
+  unsigned long int s21_uli_u, std_uli_u, s21_uli_x, std_uli_x, s21_uli_X,
+      std_uli_X, s21_uli_o, std_uli_o;
   long int s21_li_d, std_li_d, s21_li_i, std_li_i;
   double s21_mg = 0, std_mg = 0, s21_me = 0, std_me = 0;
 
-  char * string = "-1 -1 -1 -1 -1 -1 -1 -1";
+  char *string = "-1 -1 -1 -1 -1 -1 -1 -1";
   char *format = "%ld %lo %lx %lX %lu %li %e";
 
-  s21_sscanf(string, format, &s21_li_d, &s21_uli_o,
-    &s21_uli_x, &s21_uli_X, &s21_uli_u, &s21_li_i, &s21_me, &s21_mg);
-  sscanf(string, format, &std_li_d, &std_uli_o,
-    &std_uli_x, &std_uli_X, &std_uli_u, &std_li_i, &std_me, &std_mg);
+  s21_sscanf(string, format, &s21_li_d, &s21_uli_o, &s21_uli_x, &s21_uli_X,
+             &s21_uli_u, &s21_li_i, &s21_me, &s21_mg);
+  sscanf(string, format, &std_li_d, &std_uli_o, &std_uli_x, &std_uli_X,
+         &std_uli_u, &std_li_i, &std_me, &std_mg);
 
-    ck_assert_int_eq(s21_uli_u, std_uli_u);
-    ck_assert_int_eq(s21_uli_x, std_uli_x);
-    ck_assert_int_eq(s21_uli_X, std_uli_X);
-    ck_assert_int_eq(s21_uli_o, std_uli_o);
-    ck_assert_int_eq(s21_li_d, std_li_d);
-    ck_assert_int_eq(s21_li_i, std_li_i);
+  ck_assert_int_eq(s21_uli_u, std_uli_u);
+  ck_assert_int_eq(s21_uli_x, std_uli_x);
+  ck_assert_int_eq(s21_uli_X, std_uli_X);
+  ck_assert_int_eq(s21_uli_o, std_uli_o);
+  ck_assert_int_eq(s21_li_d, std_li_d);
+  ck_assert_int_eq(s21_li_i, std_li_i);
 
-    ck_assert_double_eq(s21_mg, std_mg);
-    ck_assert_double_eq(s21_me, std_me);
+  ck_assert_double_eq(s21_mg, std_mg);
+  ck_assert_double_eq(s21_me, std_me);
 }
 END_TEST
 
 START_TEST(s21_sscanf_alyona_minuses_long_double) {
-  unsigned long int s21_uli_u = 0, std_uli_u = 0, s21_uli_x = 0, std_uli_x = 0, s21_uli_X = 0, std_uli_X = 0,
-   s21_uli_o = 0, std_uli_o =0;
+  unsigned long int s21_uli_u = 0, std_uli_u = 0, s21_uli_x = 0, std_uli_x = 0,
+                    s21_uli_X = 0, std_uli_X = 0, s21_uli_o = 0, std_uli_o = 0;
   long int s21_li_d = 0, std_li_d = 0, s21_li_i = 0, std_li_i = 0;
   long double s21_mg = 0, std_mg = 0, s21_me = 0, std_me = 0;
 
-  char * string = "-1 -1 -1 -1 -1 -1 -1 -1";
+  char *string = "-1 -1 -1 -1 -1 -1 -1 -1";
   char *format = "%ld %lo %lx %lX %lu %li %Le %g";
 
-  s21_sscanf(string, format, &s21_li_d, &s21_uli_o,
-    &s21_uli_x, &s21_uli_X, &s21_uli_u, &s21_li_i, &s21_me, &s21_mg);
-  sscanf(string, format, &std_li_d, &std_uli_o,
-    &std_uli_x, &std_uli_X, &std_uli_u, &std_li_i, &std_me, &std_mg);
+  s21_sscanf(string, format, &s21_li_d, &s21_uli_o, &s21_uli_x, &s21_uli_X,
+             &s21_uli_u, &s21_li_i, &s21_me, &s21_mg);
+  sscanf(string, format, &std_li_d, &std_uli_o, &std_uli_x, &std_uli_X,
+         &std_uli_u, &std_li_i, &std_me, &std_mg);
 
-    ck_assert_int_eq(s21_uli_u, std_uli_u);
-    ck_assert_int_eq(s21_uli_x, std_uli_x);
-    ck_assert_int_eq(s21_uli_X, std_uli_X);
-    ck_assert_int_eq(s21_uli_o, std_uli_o);
-    ck_assert_int_eq(s21_li_d, std_li_d);
-    ck_assert_int_eq(s21_li_i, std_li_i);
+  ck_assert_int_eq(s21_uli_u, std_uli_u);
+  ck_assert_int_eq(s21_uli_x, std_uli_x);
+  ck_assert_int_eq(s21_uli_X, std_uli_X);
+  ck_assert_int_eq(s21_uli_o, std_uli_o);
+  ck_assert_int_eq(s21_li_d, std_li_d);
+  ck_assert_int_eq(s21_li_i, std_li_i);
 
-    ck_assert_double_eq(s21_mg, std_mg);
-    ck_assert_double_eq(s21_me, std_me);
+  ck_assert_double_eq(s21_mg, std_mg);
+  ck_assert_double_eq(s21_me, std_me);
 }
 END_TEST
 
 START_TEST(s21_sscanf_alyona_minuses_3) {
-  long int s21_uli_u = 0, std_uli_u = 0, s21_uli_x = 0, std_uli_x = 0, s21_uli_X = 0, std_uli_X = 0,
-   s21_uli_o, std_uli_o;
+  long int s21_uli_u = 0, std_uli_u = 0, s21_uli_x = 0, std_uli_x = 0,
+           s21_uli_X = 0, std_uli_X = 0, s21_uli_o, std_uli_o;
   long int s21_li_d = 0, std_li_d = 0, s21_li_i = 0, std_li_i = 0;
   double s21_mg = 0, std_mg = 0, s21_me = 0, std_me = 0;
 
-  char * string = "-1 -1 -1 -1 -1 -1 -1 -1";
+  char *string = "-1 -1 -1 -1 -1 -1 -1 -1";
   char *format = "%ld %lo %lx %lX %lu %li %e %g";
 
-  s21_sscanf(string, format, &s21_li_d, &s21_uli_o,
-    &s21_uli_x, &s21_uli_X, &s21_uli_u, &s21_li_i, &s21_me, &s21_mg);
-  sscanf(string, format, &std_li_d, &std_uli_o,
-    &std_uli_x, &std_uli_X, &std_uli_u, &std_li_i, &std_me, &std_mg);
+  s21_sscanf(string, format, &s21_li_d, &s21_uli_o, &s21_uli_x, &s21_uli_X,
+             &s21_uli_u, &s21_li_i, &s21_me, &s21_mg);
+  sscanf(string, format, &std_li_d, &std_uli_o, &std_uli_x, &std_uli_X,
+         &std_uli_u, &std_li_i, &std_me, &std_mg);
 
-    ck_assert_int_eq(s21_uli_u, std_uli_u);
-    ck_assert_int_eq(s21_uli_x, std_uli_x);
-    ck_assert_int_eq(s21_uli_X, std_uli_X);
-    ck_assert_int_eq(s21_uli_o, std_uli_o);
-    ck_assert_int_eq(s21_li_d, std_li_d);
-    ck_assert_int_eq(s21_li_i, std_li_i);
+  ck_assert_int_eq(s21_uli_u, std_uli_u);
+  ck_assert_int_eq(s21_uli_x, std_uli_x);
+  ck_assert_int_eq(s21_uli_X, std_uli_X);
+  ck_assert_int_eq(s21_uli_o, std_uli_o);
+  ck_assert_int_eq(s21_li_d, std_li_d);
+  ck_assert_int_eq(s21_li_i, std_li_i);
 
-    ck_assert_double_eq(s21_mg, std_mg);
-    ck_assert_double_eq(s21_me, std_me);
+  ck_assert_double_eq(s21_mg, std_mg);
+  ck_assert_double_eq(s21_me, std_me);
 }
 END_TEST
 
 START_TEST(s21_sscanf_alyona_minuses_2_zero) {
-  unsigned long int s21_uli_u = 0, std_uli_u = 0, s21_uli_x = 0, std_uli_x = 0, s21_uli_X = 0, std_uli_X = 0,
-   s21_uli_o = 0, std_uli_o = 0;
+  unsigned long int s21_uli_u = 0, std_uli_u = 0, s21_uli_x = 0, std_uli_x = 0,
+                    s21_uli_X = 0, std_uli_X = 0, s21_uli_o = 0, std_uli_o = 0;
   long int s21_li_d = 0, std_li_d = 0, s21_li_i = 0, std_li_i = 0;
   double s21_mg = 0, std_mg = 0, s21_me = 0, std_me = 0;
 
-  char * string = "-1 -1 -1 -1 -1 -1 -1 -1";
+  char *string = "-1 -1 -1 -1 -1 -1 -1 -1";
   char *format = "%ld %lo %lx %lX %lu %li %e %g";
 
-  s21_sscanf(string, format, &s21_li_d, &s21_uli_o,
-    &s21_uli_x, &s21_uli_X, &s21_uli_u, &s21_li_i, &s21_me, &s21_mg);
-  sscanf(string, format, &std_li_d, &std_uli_o,
-    &std_uli_x, &std_uli_X, &std_uli_u, &std_li_i, &std_me, &std_mg);
+  s21_sscanf(string, format, &s21_li_d, &s21_uli_o, &s21_uli_x, &s21_uli_X,
+             &s21_uli_u, &s21_li_i, &s21_me, &s21_mg);
+  sscanf(string, format, &std_li_d, &std_uli_o, &std_uli_x, &std_uli_X,
+         &std_uli_u, &std_li_i, &std_me, &std_mg);
 
-    ck_assert_int_eq(s21_uli_u, std_uli_u);
-    ck_assert_int_eq(s21_uli_x, std_uli_x);
-    ck_assert_int_eq(s21_uli_X, std_uli_X);
-    ck_assert_int_eq(s21_uli_o, std_uli_o);
-    ck_assert_int_eq(s21_li_d, std_li_d);
-    ck_assert_int_eq(s21_li_i, std_li_i);
+  ck_assert_int_eq(s21_uli_u, std_uli_u);
+  ck_assert_int_eq(s21_uli_x, std_uli_x);
+  ck_assert_int_eq(s21_uli_X, std_uli_X);
+  ck_assert_int_eq(s21_uli_o, std_uli_o);
+  ck_assert_int_eq(s21_li_d, std_li_d);
+  ck_assert_int_eq(s21_li_i, std_li_i);
 
-    ck_assert_double_eq(s21_mg, std_mg);
-    ck_assert_double_eq(s21_me, std_me);
+  ck_assert_double_eq(s21_mg, std_mg);
+  ck_assert_double_eq(s21_me, std_me);
 }
 END_TEST
 
 START_TEST(s21_sscanf_alyona_non_minuses_1) {
-  unsigned long int s21_uli_u = 0, std_uli_u = 0, s21_uli_x = 0, std_uli_x = 0, s21_uli_X = 0, std_uli_X = 0,
-   s21_uli_o = 0 , std_uli_o = 0;
+  unsigned long int s21_uli_u = 0, std_uli_u = 0, s21_uli_x = 0, std_uli_x = 0,
+                    s21_uli_X = 0, std_uli_X = 0, s21_uli_o = 0, std_uli_o = 0;
   long int s21_li_d = 0, std_li_d = 0, s21_li_i = 0, std_li_i = 0;
   double s21_mg = 0, std_mg = 0, s21_me = 0, std_me = 0;
 
-  char * string = "1 1 1 1 1 1 1 1";
+  char *string = "1 1 1 1 1 1 1 1";
   char *format = "%ld %lo %lx %lX %lu %li %e %g";
 
-  s21_sscanf(string, format, &s21_li_d, &s21_uli_o,
-    &s21_uli_x, &s21_uli_X, &s21_uli_u, &s21_li_i, &s21_me, &s21_mg);
-  sscanf(string, format, &std_li_d, &std_uli_o,
-    &std_uli_x, &std_uli_X, &std_uli_u, &std_li_i, &std_me, &std_mg);
+  s21_sscanf(string, format, &s21_li_d, &s21_uli_o, &s21_uli_x, &s21_uli_X,
+             &s21_uli_u, &s21_li_i, &s21_me, &s21_mg);
+  sscanf(string, format, &std_li_d, &std_uli_o, &std_uli_x, &std_uli_X,
+         &std_uli_u, &std_li_i, &std_me, &std_mg);
 
-    ck_assert_int_eq(s21_uli_u, std_uli_u);
-    ck_assert_int_eq(s21_uli_x, std_uli_x);
-    ck_assert_int_eq(s21_uli_X, std_uli_X);
-    ck_assert_int_eq(s21_uli_o, std_uli_o);
-    ck_assert_int_eq(s21_li_d, std_li_d);
-    ck_assert_int_eq(s21_li_i, std_li_i);
+  ck_assert_int_eq(s21_uli_u, std_uli_u);
+  ck_assert_int_eq(s21_uli_x, std_uli_x);
+  ck_assert_int_eq(s21_uli_X, std_uli_X);
+  ck_assert_int_eq(s21_uli_o, std_uli_o);
+  ck_assert_int_eq(s21_li_d, std_li_d);
+  ck_assert_int_eq(s21_li_i, std_li_i);
 
-    ck_assert_double_eq(s21_mg, std_mg);
-    ck_assert_double_eq(s21_me, std_me);
+  ck_assert_double_eq(s21_mg, std_mg);
+  ck_assert_double_eq(s21_me, std_me);
 }
 END_TEST
 
@@ -1585,7 +1553,6 @@ int main(void) {
 
   tcase_add_test(tc1_1, s21_strncat_1);
   tcase_add_test(tc1_1, s21_strncat_2);
-  //tcase_add_test(tc1_1, s21_memchr_1);
   tcase_add_test(tc1_1, s21_memchr_2);
   tcase_add_test(tc1_1, s21_memchr_3);
   tcase_add_test(tc1_1, s21_memcmp_1);
@@ -1601,7 +1568,6 @@ int main(void) {
   tcase_add_test(tc1_1, s21_strchr_1);
   tcase_add_test(tc1_1, s21_strlen_1);
   tcase_add_test(tc1_1, s21_strpbrk_1);
-  //tcase_add_test(tc1_1, s21_strcspn_1);
   tcase_add_test(tc1_1, s21_strrchr_1);
 
   tcase_add_test(tc1_1, s21_sprintf_d1);
@@ -1633,7 +1599,6 @@ int main(void) {
   tcase_add_test(tc1_1, s21_strtok_n2);
   tcase_add_test(tc1_1, s21_strtok_n3);
   tcase_add_test(tc1_1, s21_strtok_n4);
-
 
   tcase_add_test(tc1_1, s21_to_upper_n1);
   tcase_add_test(tc1_1, s21_to_upper_n2);
@@ -1721,7 +1686,6 @@ int main(void) {
 
   srunner_set_fork_status(sr, CK_NOFORK);
   srunner_run_all(sr, CK_ENV);
-  // nf = srunner_ntests_failed(sr);
   srunner_ntests_failed(sr);
 
   srunner_free(sr);
