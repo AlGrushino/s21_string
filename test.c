@@ -1545,6 +1545,81 @@ START_TEST(s21_sscanf_alyona_non_minuses_1) {
 }
 END_TEST
 
+// strncmp
+START_TEST(s21_strncmp_1){
+const char * str1 = "Some string";
+const char * str2 = "Another string";
+
+int res, s21_res;
+res = strncmp(str1, str2, 5);
+s21_res = s21_strncmp(str1, str2, 5);
+
+ck_assert_int_eq(res, s21_res);
+}
+END_TEST
+
+START_TEST(s21_strncmp_2){
+const char * str1 = "Some string";
+const char * str2 = "Some string string";
+
+int res, s21_res;
+res = strncmp(str1, str2, 19);
+s21_res = s21_strncmp(str1, str2, 19);
+
+ck_assert_int_eq(res, s21_res);
+}
+END_TEST
+
+START_TEST(s21_strncmp_3){
+const char * str1 = "";
+const char * str2 = "";
+
+int res, s21_res;
+res = strncmp(str1, str2, 19);
+s21_res = s21_strncmp(str1, str2, 19);
+
+ck_assert_int_eq(res, s21_res);
+}
+END_TEST
+
+START_TEST(s21_strncmp_4){
+const char * str1 = "abcdefg";
+const char * str2 = "abcdef";
+
+int res, s21_res;
+res = strncmp(str1, str2, 9);
+s21_res = s21_strncmp(str1, str2, 9);
+
+ck_assert_int_eq(res, s21_res);
+}
+END_TEST
+
+START_TEST(s21_strncmp_5){
+const char * str1 = "12345678";
+const char * str2 = "12345678";
+
+int res, s21_res;
+res = strncmp(str1, str2, 9);
+s21_res = s21_strncmp(str1, str2, 9);
+
+ck_assert_int_eq(res, s21_res);
+}
+END_TEST
+
+START_TEST(s21_strncmp_6){
+const char * str1 = "           ";
+const char * str2 = "            ";
+
+int res, s21_res;
+res = strncmp(str1, str2, 14);
+s21_res = s21_strncmp(str1, str2, 14);
+
+ck_assert_int_eq(res, s21_res);
+}
+END_TEST
+
+
+
 int main(void) {
   Suite *s1 = suite_create("Core");
   TCase *tc1_1 = tcase_create("Core");
@@ -1683,6 +1758,14 @@ int main(void) {
   tcase_add_test(tc1_1, s21_sscanf_alyona_minuses_2_zero);
   tcase_add_test(tc1_1, s21_sscanf_alyona_non_minuses_1);
   tcase_add_test(tc1_1, s21_sscanf_alyona_minuses_long_double);
+
+  // strncmp
+  tcase_add_test(tc1_1, s21_strncmp_1);
+  tcase_add_test(tc1_1, s21_strncmp_2);
+  tcase_add_test(tc1_1, s21_strncmp_3);
+  tcase_add_test(tc1_1, s21_strncmp_4);
+  tcase_add_test(tc1_1, s21_strncmp_5);
+  tcase_add_test(tc1_1, s21_strncmp_6);
 
   srunner_set_fork_status(sr, CK_NOFORK);
   srunner_run_all(sr, CK_ENV);

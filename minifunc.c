@@ -73,25 +73,34 @@ char *s21_strncat(char *dest, const char *src, s21_size_t n) {
   return dest;
 }
 
-char *s21_strchr(const char *str, int c) {
-  char *res = S21_NULL;
+char *s21_strchr(const char *str, char c) {
+  const char *res = S21_NULL;
 
   while (*str != '\0' && res == S21_NULL) {
-    if (c == *str) res = (char *)str;
+    if (c == *str) {
+      res = str; 
+    }
     str++;
   }
-  return res;
+  return (char *)res;
 }
 
+/**
+ * Сравнивает не более первых n байтов str1 и str2
+ */
 int s21_strncmp(const char *str1, const char *str2, s21_size_t n) {
   int rez = 0;
 
   for (s21_size_t i = 0; i < n && rez == 0 && *str1 != '\0' && *str2 != '\0';
        i++) {
-    rez = *(str1++) - *(str2++);
+        if (*(str1 + i) != *(str2 + i))
+        {
+          rez = *(str1 + i) - *(str2 + i);
+        }
   }
   return rez;
 }
+
 
 char *s21_strncpy(char *dest, const char *src, s21_size_t n) {
   for (s21_size_t i = 0; i < n && *src != '\0'; i++) {
