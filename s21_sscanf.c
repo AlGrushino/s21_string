@@ -1,6 +1,5 @@
 #include "s21_string.h"
 
-
 int read_d(char *str, char *buffer, int width) {
   int width_count = 0;
   int flag_minus = 0;
@@ -77,7 +76,6 @@ int read_s(char *str, char *buffer, int width) {
     width_count++;
     counter++;
   }
-  //*(str++) = '\0';
   return counter;
 }
 
@@ -175,15 +173,6 @@ int read_u(char *str, char *buffer, int width) {
   }
   return counter;
 }
-
-typedef struct {
-  int width;
-  int len_width_str;
-  int h;
-  int l;
-  int L;
-  int star;
-} after_percentage;
 
 long s21_atoi(char *arr) {
   long num = 0;
@@ -419,6 +408,270 @@ void skip_whitespace(char **str, int *counter) {
   }
 }
 
+int case_d(int *count_success, int temp_width, char *buffer, va_list args,
+           after_percentage percent) {
+  char str[1024] = "";
+  int temp_counter;
+  temp_counter = read_d(str, buffer, temp_width);
+  if (!percent.star) {
+    if (percent.l) {
+      long *p = va_arg(args, long *);
+      *p = s21_atoi(str);
+    } else {
+      int *p = va_arg(args, int *);
+      *p = s21_atoi(str);
+      if (percent.h) *p = (short)*p;
+    }
+    (*count_success)++;
+  }
+  return temp_counter;
+}
+
+int case_f(int *count_success, int temp_width, char *buffer, va_list args,
+           after_percentage percent) {
+  char str[1024] = "";
+  int temp_counter;
+  temp_counter = read_f(str, buffer, temp_width);
+  if (!percent.star) {
+    if (percent.L) {
+      long double *p = va_arg(args, long double *);
+      *p = s21_atof(str);
+    } else {
+      float *p = va_arg(args, float *);
+      *p = s21_atof(str);
+    }
+    (*count_success)++;
+  }
+  return temp_counter;
+}
+
+int case_c(int *count_success, int temp_width, char *buffer, va_list args,
+           after_percentage percent) {
+  char str[1024] = "";
+  int temp_counter;
+  temp_counter = read_c(str, buffer, temp_width);
+  if (!percent.star) {
+    char *p = va_arg(args, char *);
+    s21_strncpy(p, str, s21_strlen(str));
+    (*count_success)++;
+  }
+  return temp_counter;
+}
+
+int case_s(int *count_success, int temp_width, char *buffer, va_list args,
+           after_percentage percent) {
+  char str[1024] = "";
+  int temp_counter;
+  temp_counter = read_s(str, buffer, temp_width);
+  if (!percent.star) {
+    char *p = va_arg(args, char *);
+    s21_strncpy(p, str, s21_strlen(str));
+    (*count_success)++;
+  }
+  return temp_counter;
+}
+
+int case_e(int *count_success, int temp_width, char *buffer, va_list args,
+           after_percentage percent) {
+  char str[1024] = "";
+  int temp_counter;
+  temp_counter = read_e(str, buffer, temp_width);
+  if (!percent.star) {
+    if (percent.L) {
+      long double *p = va_arg(args, long double *);
+      *p = s21_atoe(str);
+    } else {
+      float *p = va_arg(args, float *);
+      *p = s21_atof(str);
+    }
+    (*count_success)++;
+  }
+  return temp_counter;
+}
+
+int case_g(int *count_success, int temp_width, char *buffer, va_list args,
+           after_percentage percent) {
+  char str[1024] = "";
+  int temp_counter;
+  temp_counter = read_e(str, buffer, temp_width);
+  if (!percent.star) {
+    if (percent.L) {
+      long double *p = va_arg(args, long double *);
+      if (s21_strchr(str, 'e') || s21_strchr(str, 'E')) {
+        *p = s21_atoe(str);
+      } else {
+        *p = s21_atof(str);
+      }
+    } else {
+      float *p = va_arg(args, float *);
+      if (s21_strchr(str, 'e') || s21_strchr(str, 'E')) {
+        *p = s21_atoe(str);
+      } else {
+        *p = s21_atof(str);
+      }
+    }
+    (*count_success)++;
+  }
+  return temp_counter;
+}
+
+int case_x(int *count_success, int temp_width, char *buffer, va_list args,
+           after_percentage percent) {
+  char str[1024] = "";
+  int temp_counter;
+  temp_counter = read_x(str, buffer, temp_width);
+  if (!percent.star) {
+    if (percent.l) {
+      unsigned long *p = va_arg(args, unsigned long *);
+      *p = s21_itoa_unsigned(str);
+    } else {
+      unsigned int *p = va_arg(args, unsigned int *);
+      *p = s21_itoa_unsigned(str);
+      if (percent.h) *p = (unsigned short)*p;
+    }
+    (*count_success)++;
+  }
+  return temp_counter;
+}
+
+int case_i(int *count_success, int temp_width, char *buffer, va_list args,
+           after_percentage percent) {
+  char str[1024] = "";
+  int temp_counter;
+  temp_counter = read_x(str, buffer, temp_width);
+  if (!percent.star) {
+    if (percent.l) {
+      long *p = va_arg(args, long *);
+      if (str[0] == '0' && (str[1] == 'x' || str[1] == 'X'))
+        *p = s21_itoa(str);
+      else if (str[0] == '0') {
+        s21_memset(str, '\0', s21_strlen(str));
+        temp_counter = read_8(str, buffer, temp_width);
+        *p = s21_atoi8(str);
+      } else
+        *p = s21_atoi(str);
+    } else {
+      int *p = va_arg(args, int *);
+      if (str[0] == '0' && (str[1] == 'x' || str[1] == 'X'))
+        *p = s21_itoa(str);
+      else if (str[0] == '0') {
+        s21_memset(str, '\0', s21_strlen(str));
+        temp_counter = read_8(str, buffer, temp_width);
+        *p = s21_atoi8(str);
+      } else
+        *p = s21_atoi(str);
+      if (percent.h) *p = (short)*p;
+    }
+    (*count_success)++;
+  }
+  return temp_counter;
+}
+
+int case_p(int *count_success, int temp_width, char *buffer, va_list args,
+           after_percentage percent) {
+  char str[1024] = "";
+  int temp_counter;
+  temp_counter = read_x(str, buffer, temp_width);
+  if (!percent.star) {
+    int *p = va_arg(args, void *);
+    *p = s21_itoa(str);
+    (*count_success)++;
+  }
+  return temp_counter;
+}
+
+int case_o(int *count_success, int temp_width, char *buffer, va_list args,
+           after_percentage percent) {
+  char str[1024] = "";
+  int temp_counter;
+  temp_counter = read_8(str, buffer, temp_width);
+  if (!percent.star) {
+    if (percent.l) {
+      unsigned long *p = va_arg(args, unsigned long *);
+      *p = s21_atoi_unsigned(str);
+    } else {
+      unsigned int *p = va_arg(args, unsigned int *);
+      *p = s21_atoi_unsigned(str);
+      if (percent.h) *p = (unsigned short)*p;
+    }
+    (*count_success)++;
+  }
+  return temp_counter;
+}
+
+int case_u(int *count_success, int temp_width, char *buffer, va_list args,
+           after_percentage percent) {
+  char str[1024] = "";
+  int temp_counter;
+  temp_counter = read_u(str, buffer, temp_width);
+  if (!percent.star) {
+    if (percent.l) {
+      unsigned long *p = va_arg(args, unsigned long *);
+      *p = s21_atou(str);
+    } else {
+      unsigned int *p = va_arg(args, unsigned int *);
+      *p = s21_atou(str);
+      if (percent.h) *p = (unsigned short)*p;
+    }
+    count_success++;
+  }
+  return temp_counter;
+}
+
+int turn_into_counter(int *count_success, int temp_width, char *buffer,
+                      va_list args, after_percentage percent, int temp_counter,
+                      char find, int *counter) {
+  switch (find) {
+    case 'd':
+      temp_counter = case_d(count_success, temp_width, buffer, args, percent);
+      break;
+    case 'f':
+      temp_counter = case_f(count_success, temp_width, buffer, args, percent);
+      break;
+    case 'c':
+      temp_counter = case_c(count_success, temp_width, buffer, args, percent);
+      break;
+    case 's':
+      temp_counter = case_s(count_success, temp_width, buffer, args, percent);
+      break;
+    case 'E':
+    case 'e':
+      temp_counter = case_e(count_success, temp_width, buffer, args, percent);
+      break;
+    case 'G':
+    case 'g':
+      temp_counter = case_g(count_success, temp_width, buffer, args, percent);
+      break;
+    case 'X':
+    case 'x':
+      temp_counter = case_x(count_success, temp_width, buffer, args, percent);
+      break;
+    case 'i':
+      temp_counter = case_i(count_success, temp_width, buffer, args, percent);
+      break;
+    case 'p':
+      temp_counter = case_p(count_success, temp_width, buffer, args, percent);
+      break;
+    case 'o':
+      temp_counter = case_o(count_success, temp_width, buffer, args, percent);
+      break;
+    case 'u':
+      temp_counter = case_u(count_success, temp_width, buffer, args, percent);
+      break;
+    case 'n':
+      if (!percent.star) {
+        int *p = va_arg(args, int *);
+        *p = *counter;
+        (*count_success)++;
+      }
+      counter = 0;
+      break;
+    default:
+      break;
+  }
+  return temp_counter;
+}
+
 int s21_sscanf(char *buffer, char *format, ...) {
   va_list args;
   va_start(args, format);
@@ -440,236 +693,12 @@ int s21_sscanf(char *buffer, char *format, ...) {
     else
       flag_last_percent = 1;
     if (*find != 'c') skip_whitespace(&buffer, &counter);
-    if (s21_strlen(buffer) == 0) {
-      count_success = -1;
-    }
-    switch (*find) {
-      case 'd': {
-        char str[1024] = "";
-        int temp_counter;
-        temp_counter = read_d(str, buffer, temp_width);
-        if (!percent.star) {
-          if (percent.l) {
-            long *p = va_arg(args, long *);
-            *p = s21_atoi(str);
-          } else {
-            int *p = va_arg(args, int *);
-            *p = s21_atoi(str);
-            if (percent.h) *p = (short)*p;
-          }
-          count_success++;
-        }
-        buffer = buffer + temp_counter;
-        counter += temp_counter;
-        break;
-      }
-      case 'f': {
-        char str[1024] = "";
-        int temp_counter;
-        temp_counter = read_f(str, buffer, temp_width);
-        if (!percent.star) {
-          if (percent.L) {
-            long double *p = va_arg(args, long double *);
-            *p = s21_atof(str);
-          } else {
-            float *p = va_arg(args, float *);
-            *p = s21_atof(str);
-          }
-          count_success++;
-        }
-        buffer = buffer + temp_counter;
-        counter += temp_counter;
-        break;
-      }
-      case 'c': {
-        char str[1024] = "";
-        int temp_counter;
-        temp_counter = read_c(str, buffer, temp_width);
-        if (!percent.star) {
-          char *p = va_arg(args, char *);
-          s21_strncpy(p, str, s21_strlen(str));
-          count_success++;
-        }
-        buffer = buffer + temp_counter;
-        counter += temp_counter;
-        break;
-      }
-      case 's': {
-        char str[1024] = "";
-        int temp_counter;
-        temp_counter = read_s(str, buffer, temp_width);
-        if (!percent.star) {
-          char *p = va_arg(args, char *);
-          s21_strncpy(p, str, s21_strlen(str));
-          count_success++;
-        }
-        buffer = buffer + temp_counter;
-        counter += temp_counter;
-        break;
-      }
-      case 'E':
-      case 'e': {
-        char str[1024] = "";
-        int temp_counter;
-        temp_counter = read_e(str, buffer, temp_width);
-        if (!percent.star) {
-          if (percent.L) {
-            long double *p = va_arg(args, long double *);
-            *p = s21_atoe(str);
-          } else {
-            float *p = va_arg(args, float *);
-            *p = s21_atof(str);
-          }
-          count_success++;
-        }
-        buffer = buffer + temp_counter;
-        counter += temp_counter;
-        break;
-      }
-      case 'G':
-      case 'g': {
-        char str[1024] = "";
-        int temp_counter;
-        temp_counter = read_e(str, buffer, temp_width);
-        if (!percent.star) {
-          if (percent.L) {
-            long double *p = va_arg(args, long double *);
-            if (s21_strchr(str, 'e') || s21_strchr(str, 'E')) {
-              *p = s21_atoe(str);
-            } else {
-              *p = s21_atof(str);
-            }
-          } else {
-            float *p = va_arg(args, float *);
-            if (s21_strchr(str, 'e') || s21_strchr(str, 'E')) {
-              *p = s21_atoe(str);
-            } else {
-              *p = s21_atof(str);
-            }
-          }
-          count_success++;
-        }
-        buffer = buffer + temp_counter;
-        counter += temp_counter;
-        break;
-      }
-      case 'X':
-      case 'x': {
-        char str[1024] = "";
-        int temp_counter;
-        temp_counter = read_x(str, buffer, temp_width);
-        if (!percent.star) {
-          if (percent.l) {
-            unsigned long *p = va_arg(args, unsigned long *);
-            *p = s21_itoa_unsigned(str);
-          } else {
-            unsigned int *p = va_arg(args, unsigned int *);
-            *p = s21_itoa_unsigned(str);
-            if (percent.h) *p = (unsigned short)*p;
-          }
-          count_success++;
-        }
-        buffer = buffer + temp_counter;
-        counter += temp_counter;
-        break;
-      }
-      case 'i': {
-        char str[1024] = "";
-        int temp_counter;
-        temp_counter = read_x(str, buffer, temp_width);
-        if (!percent.star) {
-          if (percent.l) {
-            long *p = va_arg(args, long *);
-            if (str[0] == '0' && (str[1] == 'x' || str[1] == 'X'))
-              *p = s21_itoa(str);
-            else if (str[0] == '0') {
-              s21_memset(str, '\0', s21_strlen(str));
-              temp_counter = read_8(str, buffer, temp_width);
-              *p = s21_atoi8(str);
-            } else
-              *p = s21_atoi(str);
-          } else {
-            int *p = va_arg(args, int *);
-            if (str[0] == '0' && (str[1] == 'x' || str[1] == 'X'))
-              *p = s21_itoa(str);
-            else if (str[0] == '0') {
-              s21_memset(str, '\0', s21_strlen(str));
-              temp_counter = read_8(str, buffer, temp_width);
-              *p = s21_atoi8(str);
-            } else
-              *p = s21_atoi(str);
-            if (percent.h) *p = (short)*p;
-          }
-          count_success++;
-        }
-        buffer = buffer + temp_counter;
-        counter += temp_counter;
-        break;
-      }
-      case 'p': {
-        char str[1024] = "";
-        int temp_counter;
-        temp_counter = read_x(str, buffer, temp_width);
-        if (!percent.star) {
-          int *p = va_arg(args, void *);
-          *p = s21_itoa(str);
-          count_success++;
-        }
-        buffer = buffer + temp_counter;
-        counter += temp_counter;
-        break;
-      }
-      case 'o': {
-        char str[1024] = "";
-        int temp_counter;
-        temp_counter = read_8(str, buffer, temp_width);
-        if (!percent.star) {
-          if (percent.l) {
-            unsigned long *p = va_arg(args, unsigned long *);
-            *p = s21_atoi_unsigned(str);
-          } else {
-            unsigned int *p = va_arg(args, unsigned int *);
-            *p = s21_atoi_unsigned(str);
-            if (percent.h) *p = (unsigned short)*p;
-          }
-          count_success++;
-        }
-        buffer = buffer + temp_counter;
-        counter += temp_counter;
-        break;
-      }
-      case 'u': {
-        char str[1024] = "";
-        int temp_counter;
-        temp_counter = read_u(str, buffer, temp_width);
-        if (!percent.star) {
-          if (percent.l) {
-            unsigned long *p = va_arg(args, unsigned long *);
-            *p = s21_atou(str);
-          } else {
-            unsigned int *p = va_arg(args, unsigned int *);
-            *p = s21_atou(str);
-            if (percent.h) *p = (unsigned short)*p;
-          }
-          count_success++;
-        }
-        buffer = buffer + temp_counter;
-        counter += temp_counter;
-        break;
-      }
-      case 'n': {
-        if (!percent.star) {
-          int *p = va_arg(args, int *);
-          *p = counter;
-          count_success++;
-        }
-        counter = 0;
-        break;
-      }
-      default: {
-        break;
-      }
-    }
+    if (s21_strlen(buffer) == 0) count_success = -1;
+    int temp_counter = 0;
+    temp_counter = turn_into_counter(&count_success, temp_width, buffer, args,
+                                     percent, temp_counter, *find, &counter);
+    buffer = buffer + temp_counter;
+    counter += temp_counter;
     format = find;
     find = s21_strchr(format, '%');
   }

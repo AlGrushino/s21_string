@@ -157,6 +157,15 @@ typedef struct {
   int reading_lenght;
 } specification_read;
 
+typedef struct {
+  int width;
+  int len_width_str;
+  int h;
+  int l;
+  int L;
+  int star;
+} after_percentage;
+
 int s21_sprintf(char *str, const char *format, ...);
 int s21_sscanf(char * buffer, char * format, ...);
 
@@ -214,4 +223,25 @@ int percent_handler(char *spec_str);
 int digit_specificator(char *str, specification_read spec_read,
                        long double num);
 char* fmt_string(char *ptr, specification_read spec_read, int num_len, char space, const char* num_str);
+
+// sscanf
+int read_d(char *str, char *buffer, int width);
+int read_c(char *str, char *buffer, int width);
+int read_f(char *str, char *buffer, int width);
+int read_s(char *str, char *buffer, int width);
+int read_e(char *str, char *buffer, int width);
+int read_x(char *str, char *buffer, int width);
+int read_8(char *str, char *buffer, int width);
+int read_u(char *str, char *buffer, int width);
+long s21_atoi(char *arr);
+long double s21_atof(char *arr);
+long double s21_atoe(char *arr);
+long int s21_itoa(char *arr);
+long int s21_atoi8(char *arr);
+unsigned long int s21_itoa_unsigned(char *arr);
+unsigned long int s21_atoi_unsigned(char *arr);
+unsigned long int s21_atou(char *arr);
+void read_percentage(after_percentage *structure, char *start);
+void skip_whitespace(char **str, int *counter);
+int s21_sscanf(char *buffer, char *format, ...);
 #endif
