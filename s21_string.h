@@ -2,7 +2,7 @@
 #define S21_STRING_H
 
 #include <stdarg.h>
-#include <stdio.h>
+#include <stdint.h>
 #include <stdlib.h>
 
 #include "math.h"
@@ -157,15 +157,24 @@ typedef struct {
   int reading_lenght;
 } specification_read;
 
+typedef struct {
+  int width;
+  int len_width_str;
+  int h;
+  int l;
+  int L;
+  int star;
+} after_percentage;
+
 int s21_sprintf(char *str, const char *format, ...);
-int s21_sscanf(char * buffer, char * format, ...);
+int s21_sscanf(char *buffer, char *format, ...);
 
 void *s21_memchr(const void *str, int c, s21_size_t n);
 int s21_memcmp(const void *str1, const void *str2, s21_size_t n);
 void *s21_memcpy(void *dest, const void *src, s21_size_t n);
 void *s21_memset(void *str, int c, s21_size_t n);
 char *s21_strncat(char *dest, const char *src, s21_size_t n);
-char *s21_strchr(const char *str, int c);
+char *s21_strchr(const char *str, char c);
 int s21_strncmp(const char *str1, const char *str2, s21_size_t n);
 char *s21_strncpy(char *dest, const char *src, s21_size_t n);
 s21_size_t s21_strcspn(const char *str1, const char *str2);
@@ -187,13 +196,11 @@ int read_specificator(char *str, const char *format, int len, char specificator,
                       va_list args, int current_len);
 double my_abs(long double a);
 
-// C#
 void *s21_to_upper(const char *str);
 void *s21_to_lower(const char *str);
 void *s21_insert(const char *src, const char *str, s21_size_t start_index);
 void *s21_trim(const char *src, const char *trim_chars);
 
-// read_specificator decomposition
 int char_handler(char *spec_str, specification_read *spec_read, va_list args);
 int decimal_handler(char *spec_str, specification_read *spec_read,
                     va_list args);
@@ -213,5 +220,26 @@ int percent_handler(char *spec_str);
 
 int digit_specificator(char *str, specification_read spec_read,
                        long double num);
-char* fmt_string(char *ptr, specification_read spec_read, int num_len, char space, const char* num_str);
+char *fmt_string(char *ptr, specification_read spec_read, int num_len,
+                 char space, const char *num_str);
+
+int read_d(char *str, char *buffer, int width);
+int read_c(char *str, char *buffer, int width);
+int read_f(char *str, char *buffer, int width);
+int read_s(char *str, char *buffer, int width);
+int read_e(char *str, char *buffer, int width);
+int read_x(char *str, char *buffer, int width);
+int read_8(char *str, char *buffer, int width);
+int read_u(char *str, char *buffer, int width);
+long s21_atoi(char *arr);
+long double s21_atof(char *arr);
+long double s21_atoe(char *arr);
+long int s21_itoa(char *arr);
+long int s21_atoi8(char *arr);
+unsigned long int s21_itoa_unsigned(char *arr);
+unsigned long int s21_atoi_unsigned(char *arr);
+unsigned long int s21_atou(char *arr);
+void read_percentage(after_percentage *structure, char *start);
+void skip_whitespace(char **str, int *counter);
+int s21_sscanf(char *buffer, char *format, ...);
 #endif

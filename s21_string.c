@@ -19,11 +19,8 @@ long long int my_round(long double num) {
   long long int int_part = (long long int)num;
   long double frac_part = num - int_part;
 
-  if (frac_part > 0.5) {
-    return int_part + 1;
-  } else {
-    return int_part;
-  }
+  if (frac_part > 0.5) int_part++;
+  return int_part;
 }
 
 long double round_to_precision(long double value, int precision) {
@@ -184,26 +181,27 @@ int science_number(char *str, specification_read spec_read, long double num) {
   return etos(str, spec_read, num, e);
 }
 
-char* fmt_string(char *ptr, specification_read spec_read, int num_len, char space, const char* num_str){
+char *fmt_string(char *ptr, specification_read spec_read, int num_len,
+                 char space, const char *num_str) {
   if (spec_read.flag_minus || spec_read.flag_zero) {
-      if (space != 0) *(ptr++) = space;
-      if (spec_read.flag_zero) {
-        s21_memset(ptr, '0', spec_read.lenght);
-        ptr += spec_read.lenght;
-      }
-      s21_strncpy(ptr, num_str, num_len);
-      ptr += num_len;
-      if (spec_read.flag_minus) {
-        s21_memset(ptr, ' ', spec_read.lenght);
-        ptr += spec_read.lenght;
-      }
-    } else {
+    if (space != 0) *(ptr++) = space;
+    if (spec_read.flag_zero) {
+      s21_memset(ptr, '0', spec_read.lenght);
+      ptr += spec_read.lenght;
+    }
+    s21_strncpy(ptr, num_str, num_len);
+    ptr += num_len;
+    if (spec_read.flag_minus) {
       s21_memset(ptr, ' ', spec_read.lenght);
       ptr += spec_read.lenght;
-      if (space != 0) *(ptr++) = space;
-      s21_strncpy(ptr, num_str, num_len);
-      ptr += num_len;
     }
+  } else {
+    s21_memset(ptr, ' ', spec_read.lenght);
+    ptr += spec_read.lenght;
+    if (space != 0) *(ptr++) = space;
+    s21_strncpy(ptr, num_str, num_len);
+    ptr += num_len;
+  }
   return ptr;
 }
 
@@ -416,57 +414,9 @@ int s21_sprintf(char *str, const char *format, ...) {
   s21_size_t remained = s21_strlen(format);
   s21_strncpy(str, format, remained);
   str += remained;
+  va_end(args);
   return str - start;
 }
-
-// void read_d(char *str, char *buffer) {
-//   while (*buffer > '0' && *buffer < '9') {
-//     *(str++) = *(buffer++);
-//   }
-// }
-
-// int sasha_func(char *arr) {
-//   int num = 0;
-//   int flag_minus = 0;
-//   int mult = 1;
-//   int len = s21_strlen(arr);
-//   len = my_abs((long double)len);
-
-//   while (len--) {
-//     if (arr[0] == '-') flag_minus = 1;
-//     num += (arr[len] - '0') * mult;
-//     mult *= 10;
-//   }
-
-//   flag_minus ? -num : num;
-//   return num;
-// }
-
-// int s21_sscanf(char *buffer, const char *format, ...) {
-//   va_list args;
-//   va_start(args, format);
-//   char *find = s21_strchr(format, '%');
-//   while (find != S21_NULL) {
-//     char *start = find + 1;
-//     find = s21_strpbrk(format, specifications);
-//     switch (*find) {
-//       case 'd':
-//         char str[1024] = "";
-//         int *p = va_arg(args, int *);
-//         read_d(str, buffer);
-//         printf("%s", str);
-//         *p = sasha_func(str);
-//         break;
-
-//       default:
-//         break;
-//     }
-
-//     find = s21_strchr(format, '%');
-//     format = find + 1;
-//   }
-//   return 0;
-// }
 
 int char_handler(char *spec_str, specification_read *spec_read, va_list args) {
   if (spec_read->lenght < 1) {

@@ -1,8 +1,5 @@
 #include "s21_string.h"
 
-/**
- * Меняет регистр строки на верхний, возвращает поинтер на новую строку
- */
 void *s21_to_upper(const char *str) {
   int str_len = s21_strlen(str);
   char *new_str = S21_NULL;
@@ -22,9 +19,6 @@ void *s21_to_upper(const char *str) {
   return new_str;
 }
 
-/**
- * Меняет регистр строки на нижний, возвращает поинтер на новую строку
- */
 void *s21_to_lower(const char *str) {
   int str_len = s21_strlen(str);
   char *new_str = S21_NULL;
@@ -44,9 +38,6 @@ void *s21_to_lower(const char *str) {
   return new_str;
 }
 
-/**
- * Вставляет строку src в str и возвращает поинтер на новую строку
- */
 void *s21_insert(const char *src, const char *str, s21_size_t start_index) {
   int str_len = s21_strlen(str);
   int src_len = s21_strlen(src);
@@ -65,10 +56,6 @@ void *s21_insert(const char *src, const char *str, s21_size_t start_index) {
   return new_str;
 }
 
-/**
- * Удаляет символы из trim_chars слева и справа в src, возвращает поинтер на
- * новую строку
- */
 void *s21_trim(const char *src, const char *trim_chars) {
   int index = 0;
   int index_reverse = s21_strlen(src) - 1;
